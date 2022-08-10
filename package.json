@@ -9,6 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@polkadot/api": "^9.1.1",
+    "bigfloat.js": "^3.0.1",
+    "bn.js": "^5.2.1",
     "next": "12.2.4",
     "next-auth": "^4.10.3",
     "react": "18.2.0",
