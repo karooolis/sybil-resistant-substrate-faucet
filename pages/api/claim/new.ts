@@ -66,6 +66,7 @@ const sendToken = async (address: string) => {
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   // TODO: obtain address from UI. Validate if correct.
+  // TODO: add error handling & logging
   // send token to address
   await sendToken("5CJhPVnG9hsmM736zPqRLnJiE6ngPemgkMVNFLmHZLaD5Lhy");
 
