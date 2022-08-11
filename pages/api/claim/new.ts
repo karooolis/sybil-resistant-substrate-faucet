@@ -1,8 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { ApiPromise, WsProvider, Keyring } from "@polkadot/api";
 import { BigFloat } from "bigfloat.js";
-// TODO: might not need bn.js after all
-import { BN } from "bn.js";
 import { hasClaimed } from "./status";
 
 type Data = {
