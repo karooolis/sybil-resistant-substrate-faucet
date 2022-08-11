@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { ApiPromise, WsProvider, Keyring } from "@polkadot/api";
 import { BigFloat } from "bigfloat.js";
 import { hasClaimed } from "./status";
+import { isValidAddress } from "../../../utils/isValidAddress";
 
 type Data = {
   message?: string;
@@ -77,11 +78,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   //   return res.status(401).send({ error: "Not authenticated." });
   // }
 
-  // TODO: check if valid wallet address
-  // if (!address || !isValidAddress(address)) {
-  //   // Return invalid wallet address status
-  //   return res.status(400).send({ error: "Invalid wallet address." });
-  // }
+  if (!address || !isValidAddress(address)) {
+    // Return invalid wallet address status
+    return res.status(400).send({ error: "Invalid wallet address." });
+  }
 
   // TODO: check if already claimed
   const claimed: boolean = await hasClaimed("SESSION_USER_ID");

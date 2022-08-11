@@ -1,10 +1,9 @@
 import { useState } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
-import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import LoginButton from "../components/login-btn";
-import Error from "next/error";
+import { isValidAddress } from "../utils/isValidAddress";
 
 const Home: NextPage = () => {
   const [address, setAddress] = useState<string>("");
@@ -13,7 +12,7 @@ const Home: NextPage = () => {
   /**
    * Process faucet drip request
    */
-  const handleDrip = async () => {
+  const processDrip = async () => {
     // Toggle loading
     setLoading(true);
 
@@ -61,9 +60,17 @@ const Home: NextPage = () => {
           onChange={(e) => setAddress(e.target.value)}
         />
 
-        <button onClick={handleDrip} disabled={loading}>
-          {!loading ? "Claim" : "Claiming..."}
-        </button>
+        {isValidAddress(address) ? (
+          // If address is valid, allow claiming
+          <button onClick={processDrip} disabled={loading}>
+            {!loading ? "Claim" : "Claiming ..."}
+          </button>
+        ) : (
+          // Else, force to fix address
+          <button disabled>
+            {address === "" ? "Enter valid address" : "Invalid address"}
+          </button>
+        )}
 
         <LoginButton />
       </main>
