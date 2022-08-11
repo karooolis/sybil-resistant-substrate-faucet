@@ -1,10 +1,50 @@
+import { useState } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
-import Button from "../components/login-btn";
+import LoginButton from "../components/login-btn";
+import Error from "next/error";
 
 const Home: NextPage = () => {
+  const [address, setAddress] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+
+  /**
+   * Process faucet drip request
+   */
+  const handleDrip = async () => {
+    // Toggle loading
+    setLoading(true);
+
+    try {
+      fetch("/api/claim/new", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ address }),
+      });
+    } catch (error: unknown) {
+      console.log("error", error);
+    }
+
+    // try {
+    //   // Post new claim with recipient address
+    //   await axios.post("/api/claim/new", { address, others: claimOther });
+    //   // Toast if success + toggle claimed
+    //   toast.success("Tokens dispersed—check balances shortly!");
+    //   setClaimed(true);
+    //   setFirstClaim(true);
+    // } catch (error: any) {
+    //   // If error, toast error message
+    //   toast.error(error.response.data.error);
+    // }
+
+    // Toggle loading
+    setLoading(false);
+  };
+
   return (
     <div className={styles.container}>
       <Head>
@@ -14,7 +54,18 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
-        <Button />
+        <input
+          type="text"
+          placeholder="SOME ADDRESS"
+          value={address}
+          onChange={(e) => setAddress(e.target.value)}
+        />
+
+        <button onClick={handleDrip} disabled={loading}>
+          {!loading ? "Claim" : "Claiming..."}
+        </button>
+
+        <LoginButton />
       </main>
 
       {/* <main className={styles.main}>

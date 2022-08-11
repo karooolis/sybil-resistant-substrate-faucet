@@ -14,7 +14,7 @@ type Data = {
  * @param {string} twitterId to check
  * @returns {Promise<boolean>} claim status
  */
-const hasClaimed = async (twitterId: string): Promise<boolean> => {
+export const hasClaimed = async (twitterId: string): Promise<boolean> => {
   // Check if key exists
   const resp: string | null = await client.get(twitterId);
   // If exists, return true, else return false
