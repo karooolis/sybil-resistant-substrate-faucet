@@ -1,13 +1,23 @@
 import { useState } from "react";
-import type { NextPage } from "next";
+import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
+import { signIn, getSession, signOut, GetSessionParams } from "next-auth/react"; // Auth
 import styles from "../styles/Home.module.css";
 import LoginButton from "../components/login-btn";
 import { isValidAddress } from "../utils/isValidAddress";
+import { hasClaimed } from "./api/claim/status";
+import { Session } from "next-auth";
 
-const Home: NextPage = () => {
+type Props = {
+  propA: any;
+  claimed: boolean;
+};
+
+const Home = ({ claimed, propA }: Props) => {
   const [address, setAddress] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
+
+  console.log("yooo", claimed, propA);
 
   /**
    * Process faucet drip request
@@ -17,6 +27,7 @@ const Home: NextPage = () => {
     setLoading(true);
 
     try {
+      // Post new claim with recipient address
       fetch("/api/claim/new", {
         method: "POST",
         headers: {
@@ -133,5 +144,19 @@ const Home: NextPage = () => {
     </div>
   );
 };
+
+export async function getServerSideProps(context: GetServerSideProps) {
+  // Collect session
+  const session: any = await getSession(context as GetSessionParams);
+
+  return {
+    props: {
+      // If session exists, collect claim status, else return false
+      claimed: session
+        ? await hasClaimed(session.provider, session.providerAccountId)
+        : false,
+    },
+  };
+}
 
 export default Home;

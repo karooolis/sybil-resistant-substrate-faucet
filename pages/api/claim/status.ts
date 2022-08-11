@@ -14,16 +14,15 @@ type Data = {
  * @param {string} twitterId to check
  * @returns {Promise<boolean>} claim status
  */
-export const hasClaimed = async (twitterId: string): Promise<boolean> => {
+export const hasClaimed = async (provider: string, providerAccountId: string): Promise<boolean> => {
   // Check if key exists
-  const resp: string | null = await client.get(twitterId);
+  const resp: string | null = await client.get(`${provider}-${providerAccountId}`);
   // If exists, return true, else return false
   return resp ? true : false;
 }
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
-  const claimed = await hasClaimed('TWITTER_ID');
-
+  const claimed = await hasClaimed('twitter', 'TWITTER_ID');
 
   const session: any = await getSession({ req });
 

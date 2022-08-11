@@ -84,7 +84,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   }
 
   // TODO: check if already claimed
-  const claimed: boolean = await hasClaimed("SESSION_USER_ID");
+  const claimed: boolean = await hasClaimed('twitter', "SESSION_USER_ID");
   if (claimed) {
     // Return already claimed status
     return res.status(400).send({ error: "Already claimed in 24h window" });
