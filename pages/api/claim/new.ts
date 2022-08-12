@@ -1,8 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { ApiPromise, WsProvider, Keyring } from "@polkadot/api";
+import { unstable_getServerSession } from "next-auth/next";
 import { BigFloat } from "bigfloat.js";
 import { hasClaimed } from "./status";
 import { isValidAddress } from "../../../utils/isValidAddress";
+import { authOptions } from "../auth/[...nextauth]";
 
 type Data = {
   message?: string;
@@ -68,6 +70,9 @@ const processDrip = async (address: string) => {
 const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   // Collect session (force any for extra twitter params)
   // const session: any = await getSession({ req });
+  const session = await unstable_getServerSession(req, res, authOptions);
+
+  console.log("session", session);
 
   // Collect address
   const { address }: { address: string } = req.body;
@@ -84,10 +89,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   }
 
   // TODO: check if already claimed
-  const claimed: boolean = await hasClaimed('twitter', "SESSION_USER_ID");
+  const claimed: boolean = await hasClaimed("twitter", "SESSION_USER_ID");
   if (claimed) {
     // Return already claimed status
-    return res.status(400).send({ error: "Already claimed in 24h window" });
+    return res.status(400).send({ error: "Already claimed in 24h window." });
   }
 
   // TODO: add error handling & logging
