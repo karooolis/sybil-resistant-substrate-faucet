@@ -1,20 +1,12 @@
 import { useState } from "react";
-import type { GetServerSideProps, NextPage } from "next";
+import type { GetServerSideProps } from "next";
 import Head from "next/head";
-import {
-  signIn,
-  getSession,
-  signOut,
-  GetSessionParams,
-  useSession,
-} from "next-auth/react"; // Auth
+import { getSession, GetSessionParams, useSession } from "next-auth/react";
 import LoginButton from "../components/login-btn";
 import { isValidAddress } from "../utils/isValidAddress";
 import { hasClaimed } from "./api/claim/status";
-import { Session } from "next-auth";
 import Button from "../components/button";
 import WalletInput from "../components/wallet-input";
-import Layout from "../components/layout";
 
 type Props = {
   claimed: boolean;
@@ -24,8 +16,6 @@ const Home = ({ claimed }: Props) => {
   const { status } = useSession();
   const [address, setAddress] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
-
-  console.log(status);
 
   /**
    * Process faucet drip request
@@ -92,7 +82,6 @@ const Home = ({ claimed }: Props) => {
                 </p>
 
                 <form className="mt-5">
-                  {/* <div className="w-full sm:max-w-xs"> */}
                   <WalletInput
                     value={address}
                     onChange={(evt: React.ChangeEvent<HTMLInputElement>) =>
@@ -126,8 +115,8 @@ const Home = ({ claimed }: Props) => {
             {status !== "authenticated" && (
               <>
                 <p className="mt-2 text-gray-900">
-                  To prevent faucet abuse, you must sign in. We request
-                  read-only access.
+                  To prevent faucet abuse, you must sign in with Twitter or
+                  GitHub.
                 </p>
 
                 <LoginButton />
@@ -135,85 +124,17 @@ const Home = ({ claimed }: Props) => {
             )}
           </div>
         </div>
-
-        {/* 
-        <input
-          type="text"
-          placeholder="SOME ADDRESS"
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
-        /> */}
       </main>
-
-      {/* <main className={styles.main}>
-        <Button />
-
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.tsx</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h2>Documentation &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h2>Learn &rarr;</h2>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/canary/examples"
-            className={styles.card}
-          >
-            <h2>Examples &rarr;</h2>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h2>Deploy &rarr;</h2>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
-      </footer> */}
     </div>
   );
 };
 
 export async function getServerSideProps(context: GetServerSideProps) {
-  // Collect session
   const session: any = await getSession(context as GetSessionParams);
-
-  console.log(session);
 
   return {
     props: {
       session,
-      // If session exists, collect claim status, else return false
       claimed: session
         ? await hasClaimed(session.provider, session.providerAccountId)
         : false,

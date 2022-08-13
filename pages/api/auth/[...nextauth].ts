@@ -3,7 +3,6 @@ import GithubProvider from "next-auth/providers/github";
 import TwitterProvider from "next-auth/providers/twitter";
 
 export const authOptions: NextAuthOptions = {
-  // Configure one or more authentication providers
   providers: [
     GithubProvider({
       clientId: process.env.GITHUB_CLIENT_ID as string,

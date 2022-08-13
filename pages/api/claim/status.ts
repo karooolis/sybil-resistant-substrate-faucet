@@ -23,7 +23,7 @@ export const hasClaimed = async (provider: string, providerAccountId: string): P
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   const claimed = await hasClaimed('twitter', 'TWITTER_ID');
-
+  
   const session: any = await getSession({ req });
 
   console.log('session', session)
