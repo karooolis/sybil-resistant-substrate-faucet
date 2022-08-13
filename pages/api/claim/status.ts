@@ -1,12 +1,23 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import Redis from "ioredis"; // Redis
-import { getSession } from "next-auth/react"; // Session management
+import Redis from "ioredis";
+import { Session } from "next-auth";
+import { getSession } from "next-auth/react";
 
 // Setup redis client
 const client = new Redis(process.env.REDIS_ENDPOINT as string);
 
 type Data = {
-  message: string;
+  error?: string;
+  message?: string;
+  claimed?: boolean;
+};
+
+export const getKey = (session: Session | null) => {
+  if (!session) {
+    return null;
+  }
+
+  return `${session.provider}-${session.providerAccountId}`;
 };
 
 /**
@@ -14,27 +25,34 @@ type Data = {
  * @param {string} twitterId to check
  * @returns {Promise<boolean>} claim status
  */
-export const hasClaimed = async (provider: string, providerAccountId: string): Promise<boolean> => {
+export const hasClaimed = async (session: Session | null): Promise<boolean> => {
   // Check if key exists
-  const resp: string | null = await client.get(`${provider}-${providerAccountId}`);
+  const key = getKey(session);
+  if (!key) {
+    return false;
+  }
+
+  const resp: string | null = await client.get(key);
   // If exists, return true, else return false
   return resp ? true : false;
-}
+};
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
-  const claimed = await hasClaimed('twitter', 'TWITTER_ID');
-  
-  const session: any = await getSession({ req });
+  const session: Session | null = await getSession({ req });
 
-  console.log('session', session)
+  if (!session) {
+    // Return unauthenticated status
+    res.status(401).send({ error: "Not authenticated." });
+  }
 
-  // console.log('req', req)
-
-  // await client.set('TWITTER_ID', true)
-
-  console.log(claimed)
-  
-  res.status(200).json({ message: "Success" });
+  try {
+    // Collect claim status
+    const claimed: boolean = await hasClaimed(session);
+    res.status(200).send({ claimed });
+  } catch {
+    // If failure, return error checking status
+    res.status(500).send({ error: "Error checking claim status." });
+  }
 };
 
 export default handler;

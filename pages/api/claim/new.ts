@@ -1,10 +1,14 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { ApiPromise, WsProvider, Keyring } from "@polkadot/api";
 import { unstable_getServerSession } from "next-auth/next";
+import Redis from "ioredis";
 import { BigFloat } from "bigfloat.js";
-import { hasClaimed } from "./status";
+import { getKey, hasClaimed } from "./status";
 import { isValidAddress } from "../../../utils/isValidAddress";
 import { authOptions } from "../auth/[...nextauth]";
+
+// Setup redis client
+const client = new Redis(process.env.REDIS_ENDPOINT as string);
 
 type Data = {
   message?: string;
@@ -24,7 +28,6 @@ const initApi = async () => {
     api.rpc.system.version(),
   ]);
 
-  // Log these stats
   console.log(
     `You are connected to chain ${chain} using ${nodeName} v${nodeVersion}`
   );
@@ -33,16 +36,10 @@ const initApi = async () => {
 };
 
 const initKeyring = () => {
-  // TODO: add error handling & logging
-  // try {
   const keyring = new Keyring({ type: "sr25519" });
   const account = keyring.addFromMnemonic(
     process.env.FAUCET_MNEMONIC as string
   );
-  // } catch (error) {
-  // logger.error(error);
-  // errorCounter.plusOne('other');
-  // }
 
   return account;
 };
@@ -72,41 +69,30 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   // const session: any = await getSession({ req });
   const session = await unstable_getServerSession(req, res, authOptions);
 
-  console.log("session", session);
-
   // Collect address
   const { address }: { address: string } = req.body;
 
-  // TODO: check if user authenticated
-  // if (!session) {
-  //   // Return unauthenticated status
-  //   return res.status(401).send({ error: "Not authenticated." });
-  // }
+  if (!session) {
+    // Return unauthenticated status
+    return res.status(401).send({ error: "Not authenticated." });
+  }
 
   if (!address || !isValidAddress(address)) {
     // Return invalid wallet address status
     return res.status(400).send({ error: "Invalid wallet address." });
   }
 
-  // TODO: check if already claimed
-  const claimed: boolean = await hasClaimed("twitter", "SESSION_USER_ID");
+  const claimed: boolean = await hasClaimed(session);
   if (claimed) {
     // Return already claimed status
     return res.status(400).send({ error: "Already claimed in 24h window." });
   }
 
-  // TODO: add error handling & logging
   try {
     // Process faucet drip
     await processDrip(address);
   } catch (error: unknown) {
     console.log(error);
-
-    // // If not whitelisted, force user to wait 15 minutes
-    // if (!whitelist.includes(session.twitter_id)) {
-    //   // Update 24h claim status
-    //   await client.set(session.twitter_id, "true", "EX", 900);
-    // }
 
     // If error in process, revert
     return res
@@ -114,12 +100,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       .send({ error: "Error fully claiming, try again in 15 minutes." });
   }
 
-  // TODO: update user claimed status
-  // If not whitelisted
-  // if (!whitelist.includes(session.twitter_id)) {
-  //   // Update 24h claim status
-  //   await client.set(session.twitter_id, "true", "EX", 86400);
-  // }
+  const key = getKey(session) as string;
+  await client.set(key, "true", "EX", 60);
 
   res.status(200).json({ message: "Drip processed successfully." });
 };

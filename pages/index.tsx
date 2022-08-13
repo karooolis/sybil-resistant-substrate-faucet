@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { GetServerSideProps } from "next";
 import Head from "next/head";
+import { Session } from "next-auth";
 import { getSession, GetSessionParams, useSession } from "next-auth/react";
 import LoginButton from "../components/login-btn";
 import { isValidAddress } from "../utils/isValidAddress";
@@ -25,6 +26,8 @@ const Home = ({ claimed }: Props) => {
     setLoading(true);
 
     try {
+      console.log("yoo");
+
       // Post new claim with recipient address
       fetch("/api/claim/new", {
         method: "POST",
@@ -91,11 +94,7 @@ const Home = ({ claimed }: Props) => {
 
                   {isValidAddress(address) ? (
                     // If address is valid, allow claiming
-                    <Button
-                      type="submit"
-                      onClick={processDrip}
-                      disabled={loading}
-                    >
+                    <Button onClick={processDrip} disabled={loading}>
                       {!loading ? "Claim" : "Claiming ..."}
                     </Button>
                   ) : (
@@ -130,14 +129,12 @@ const Home = ({ claimed }: Props) => {
 };
 
 export async function getServerSideProps(context: GetServerSideProps) {
-  const session: any = await getSession(context as GetSessionParams);
+  const session: Session | null = await getSession(context as GetSessionParams);
 
   return {
     props: {
       session,
-      claimed: session
-        ? await hasClaimed(session.provider, session.providerAccountId)
-        : false,
+      claimed: session ? await hasClaimed(session) : false,
     },
   };
 }
