@@ -101,7 +101,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   }
 
   const key = getKey(session) as string;
-  await client.set(key, "true", "EX", 60);
+  await client.set(key, "true", "EX", 30);
 
   res.status(200).json({ message: "Drip processed successfully." });
 };

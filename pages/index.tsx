@@ -1,8 +1,10 @@
 import { useState } from "react";
+import axios from "axios";
 import type { GetServerSideProps } from "next";
 import Head from "next/head";
 import { Session } from "next-auth";
 import { getSession, GetSessionParams, useSession } from "next-auth/react";
+import { toast } from "react-hot-toast";
 import LoginButton from "../components/login-btn";
 import { isValidAddress } from "../utils/isValidAddress";
 import { hasClaimed } from "./api/claim/status";
@@ -13,8 +15,9 @@ type Props = {
   claimed: boolean;
 };
 
-const Home = ({ claimed }: Props) => {
+const Home = ({ claimed: initialClaimed }: Props) => {
   const { status } = useSession();
+  const [claimed, setClaimed] = useState<boolean>(initialClaimed);
   const [address, setAddress] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -26,31 +29,18 @@ const Home = ({ claimed }: Props) => {
     setLoading(true);
 
     try {
-      console.log("yoo");
-
       // Post new claim with recipient address
-      fetch("/api/claim/new", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ address }),
+      const claimPromise = axios.post("/api/claim/new", { address });
+
+      // Toast based on claim state
+      await toast.promise(claimPromise, {
+        loading: "Claim is pending ...",
+        success: "Claimed successfully 👌",
+        error: "Claim rejected 🤯",
       });
     } catch (error: unknown) {
-      console.log("Error:", error);
+      console.log(error);
     }
-
-    // try {
-    //   // Post new claim with recipient address
-    //   await axios.post("/api/claim/new", { address, others: claimOther });
-    //   // Toast if success + toggle claimed
-    //   toast.success("Tokens dispersed—check balances shortly!");
-    //   setClaimed(true);
-    //   setFirstClaim(true);
-    // } catch (error: any) {
-    //   // If error, toast error message
-    //   toast.error(error.response.data.error);
-    // }
 
     // Toggle loading
     setLoading(false);
