@@ -21,6 +21,8 @@ const Home = ({ claimed: initialClaimed }: Props) => {
   const [address, setAddress] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
 
+  console.log(useSession());
+
   /**
    * Process faucet drip request
    */

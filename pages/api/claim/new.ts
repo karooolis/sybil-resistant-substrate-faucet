@@ -66,7 +66,6 @@ const processDrip = async (address: string) => {
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   // Collect session (force any for extra twitter params)
-  // const session: any = await getSession({ req });
   const session = await unstable_getServerSession(req, res, authOptions);
 
   // Collect address

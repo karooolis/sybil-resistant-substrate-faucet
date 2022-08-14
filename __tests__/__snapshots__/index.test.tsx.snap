@@ -1,0 +1,215 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`index page renders homepage unchanged - logged in 1`] = `
+<div>
+  <div
+    class="max-w-7xl h-screen mx-auto px-4 sm:px-6 lg:px-8"
+  >
+    <main
+      class="max-w-3xl mx-auto"
+    >
+      <h2
+        class="text-center pt-12 text-3xl leading-8 font-bold tracking-tight text-gray-900 sm:text-4xl sm:tracking-tight"
+      >
+        Polkadot Faucet
+      </h2>
+      <p
+        class="mt-2 max-w-3xl mx-auto text-center text-xl text-gray-500"
+      >
+        Bootstrap your testnet wallet
+      </p>
+      <div
+        class="mt-12 bg-white shadow border border-gray-300 sm:rounded-lg"
+      >
+        <div
+          class="px-4 py-5 sm:p-6"
+        >
+          <h3
+            class="text-lg leading-6 font-medium text-gray-900"
+          >
+            Request Tokens
+          </h3>
+          <p
+            class="mt-2 text-sm text-gray-500"
+          >
+            Enter your wallet address to receive testnet tokens.
+          </p>
+          <form
+            class="mt-5"
+          >
+            <div>
+              <input
+                class="w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                id="wallet-address"
+                name="wallet-address"
+                placeholder="5GgiURgKaVw2nENZuUmLWQVV7oaGH7ryRkK4A7q4dZWNu69u"
+                type="text"
+                value=""
+              />
+            </div>
+            <button
+              class="mt-3 w-full inline-flex items-center justify-center px-4 py-2 border border-transparent shadow-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              disabled=""
+              type="button"
+            >
+              Enter valid address
+            </button>
+            <button
+              class="block mt-4 -mb-1 mx-auto text-blue-500 underline"
+            >
+              Sign out 
+              a
+            </button>
+          </form>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+`;
+
+exports[`index page renders homepage unchanged - not logged in 1`] = `
+<div>
+  <div
+    class="max-w-7xl h-screen mx-auto px-4 sm:px-6 lg:px-8"
+  >
+    <main
+      class="max-w-3xl mx-auto"
+    >
+      <h2
+        class="text-center pt-12 text-3xl leading-8 font-bold tracking-tight text-gray-900 sm:text-4xl sm:tracking-tight"
+      >
+        Polkadot Faucet
+      </h2>
+      <p
+        class="mt-2 max-w-3xl mx-auto text-center text-xl text-gray-500"
+      >
+        Bootstrap your testnet wallet
+      </p>
+      <div
+        class="mt-12 bg-white shadow border border-gray-300 sm:rounded-lg"
+      >
+        <div
+          class="px-4 py-5 sm:p-6"
+        >
+          <h3
+            class="text-lg leading-6 font-medium text-gray-900"
+          >
+            Request Tokens
+          </h3>
+          <p
+            class="mt-2 text-sm text-gray-500"
+          >
+            Enter your wallet address to receive testnet tokens.
+          </p>
+          <form
+            class="mt-5"
+          >
+            <div>
+              <input
+                class="w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                id="wallet-address"
+                name="wallet-address"
+                placeholder="5GgiURgKaVw2nENZuUmLWQVV7oaGH7ryRkK4A7q4dZWNu69u"
+                type="text"
+                value=""
+              />
+            </div>
+            <button
+              class="mt-3 w-full inline-flex items-center justify-center px-4 py-2 border border-transparent shadow-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              disabled=""
+              type="button"
+            >
+              Enter valid address
+            </button>
+            <button
+              class="block mt-4 -mb-1 mx-auto text-blue-500 underline"
+            >
+              Sign out 
+              a
+            </button>
+          </form>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+`;
+
+exports[`renders homepage unchanged 1`] = `
+<div>
+  <div
+    class="max-w-7xl h-screen mx-auto px-4 sm:px-6 lg:px-8"
+  >
+    <main
+      class="max-w-3xl mx-auto"
+    >
+      <h2
+        class="text-center pt-12 text-3xl leading-8 font-bold tracking-tight text-gray-900 sm:text-4xl sm:tracking-tight"
+      >
+        Polkadot Faucet
+      </h2>
+      <p
+        class="mt-2 max-w-3xl mx-auto text-center text-xl text-gray-500"
+      >
+        Bootstrap your testnet wallet
+      </p>
+      <div
+        class="mt-12 bg-white shadow border border-gray-300 sm:rounded-lg"
+      >
+        <div
+          class="px-4 py-5 sm:p-6"
+        >
+          <h3
+            class="text-lg leading-6 font-medium text-gray-900"
+          >
+            Request Tokens
+          </h3>
+          <p
+            class="mt-2 text-sm text-gray-500"
+          >
+            Enter your wallet address to receive testnet tokens.
+          </p>
+          <form
+            class="mt-5"
+          >
+            <div>
+              <input
+                class="w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                id="wallet-address"
+                name="wallet-address"
+                placeholder="5GgiURgKaVw2nENZuUmLWQVV7oaGH7ryRkK4A7q4dZWNu69u"
+                type="text"
+                value=""
+              />
+            </div>
+            <button
+              class="mt-3 w-full inline-flex items-center justify-center px-4 py-2 border border-transparent shadow-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              disabled=""
+              type="button"
+            >
+              Enter valid address
+            </button>
+            <div
+              class="mt-2"
+            >
+              <button
+                class="mt-3 w-full inline-flex items-center justify-center px-4 py-2 border border-transparent shadow-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                type="button"
+              >
+                Sign in with Twitter
+              </button>
+              <button
+                class="mt-3 w-full inline-flex items-center justify-center px-4 py-2 border border-transparent shadow-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                type="button"
+              >
+                Sign in with GitHub
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+`;
