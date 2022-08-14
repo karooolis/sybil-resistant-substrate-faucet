@@ -1,47 +1,44 @@
 import { render } from "@testing-library/react";
-import { Session } from "next-auth";
 import { useSession } from "next-auth/react";
+import { mockGithubSession, mockTwitterSession } from "../__mocks__/mocks";
 import Home from "../pages/index";
 
-// TODO: add correct session data
-const mockSession: Session = {
-  expires: "1",
-  user: { email: "a", name: "Delta", image: "c" },
-};
-
-jest.mock("next-auth/react", () => ({
-  useSession: () => {
-    return {
-      data: mockSession,
-      status: "authenticated",
-    };
-  },
-}));
+jest.mock("next-auth/react", () => {
+  return {
+    useSession: jest.fn(),
+  };
+});
 
 describe("index page", () => {
+  beforeEach(() => {
+    jest.resetModules();
+  });
+
   it("renders homepage unchanged - not logged in", () => {
-    jest.mock("next-auth/react", () => ({
-      useSession: () => {
-        return {
-          data: null,
-          status: "unauthenticated",
-        };
-      },
-    }));
+    (useSession as jest.Mock).mockReturnValue({
+      data: null,
+      status: "unauthenticaated",
+    });
 
     const { container } = render(<Home claimed={false} />);
     expect(container).toMatchSnapshot();
   });
 
-  it("renders homepage unchanged - logged in", () => {
-    jest.mock("next-auth/react", () => ({
-      useSession: () => {
-        return {
-          data: mockSession,
-          status: "authenticated",
-        };
-      },
-    }));
+  it("renders homepage unchanged - logged in with GitHub", () => {
+    (useSession as jest.Mock).mockReturnValue({
+      data: mockGithubSession,
+      status: "authenticaated",
+    });
+
+    const { container } = render(<Home claimed={false} />);
+    expect(container).toMatchSnapshot();
+  });
+
+  it("renders homepage unchanged - logged in with Twitter", () => {
+    (useSession as jest.Mock).mockReturnValue({
+      data: mockTwitterSession,
+      status: "authenticaated",
+    });
 
     const { container } = render(<Home claimed={false} />);
     expect(container).toMatchSnapshot();
