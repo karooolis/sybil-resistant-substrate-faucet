@@ -17,6 +17,7 @@ type Props = {
 
 const Home = ({ claimed: initialClaimed }: Props) => {
   const { status } = useSession();
+  const [triedClaim, setTriedClaim] = useState<boolean>(false);
   const [claimed, setClaimed] = useState<boolean>(initialClaimed);
   const [address, setAddress] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
@@ -25,6 +26,13 @@ const Home = ({ claimed: initialClaimed }: Props) => {
    * Process faucet drip request
    */
   const processDrip = async () => {
+    // Set tried claim
+    setTriedClaim(true);
+
+    if (!isValidAddress(address)) {
+      return;
+    }
+
     // Toggle loading
     setLoading(true);
 
@@ -38,6 +46,8 @@ const Home = ({ claimed: initialClaimed }: Props) => {
         success: "Claimed successfully 👌",
         error: "Claim rejected 🤯",
       });
+
+      setClaimed(true);
     } catch (error: unknown) {
       console.log(error);
     }
@@ -77,24 +87,29 @@ const Home = ({ claimed: initialClaimed }: Props) => {
                 <form className="mt-5">
                   <WalletInput
                     value={address}
+                    triedClaim={triedClaim}
                     onChange={(evt: React.ChangeEvent<HTMLInputElement>) =>
                       setAddress(evt.target.value)
                     }
+                    disabled={claimed || loading}
                   />
 
-                  {isValidAddress(address) ? (
-                    // If address is valid, allow claiming
-                    <Button onClick={processDrip} disabled={loading}>
-                      {!loading ? "Claim" : "Claiming ..."}
-                    </Button>
-                  ) : (
-                    // Else, force to fix address
-                    <Button disabled>
-                      {address === ""
-                        ? "Enter valid address"
-                        : "Invalid address"}
-                    </Button>
-                  )}
+                  <Button
+                    onClick={processDrip}
+                    disabled={
+                      loading ||
+                      claimed ||
+                      (triedClaim && !isValidAddress(address))
+                    }
+                  >
+                    {claimed
+                      ? triedClaim
+                        ? "Tokens Claimed Successfully"
+                        : "Tokens Already Claimed"
+                      : !loading
+                      ? "Claim"
+                      : "Claiming ..."}
+                  </Button>
 
                   <LoginButton />
                 </form>
