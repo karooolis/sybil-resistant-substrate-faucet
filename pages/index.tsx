@@ -5,7 +5,7 @@ import Head from "next/head";
 import { Session } from "next-auth";
 import { getSession, GetSessionParams, useSession } from "next-auth/react";
 import { toast } from "react-hot-toast";
-import LoginButton from "../components/login-btn";
+import Login from "../components/login";
 import { isValidAddress } from "../utils/isValidAddress";
 import { hasClaimed } from "./api/claim/status";
 import Button from "../components/button";
@@ -93,6 +93,7 @@ const Home = ({ claimed: initialClaimed }: Props) => {
                   />
 
                   <Button
+                    data-testid="claim-btn"
                     onClick={handleClaim}
                     disabled={
                       loading ||
@@ -109,7 +110,7 @@ const Home = ({ claimed: initialClaimed }: Props) => {
                       : "Claiming ..."}
                   </Button>
 
-                  <LoginButton />
+                  <Login />
                 </form>
               </>
             )}
@@ -121,7 +122,7 @@ const Home = ({ claimed: initialClaimed }: Props) => {
                   GitHub.
                 </p>
 
-                <LoginButton />
+                <Login />
               </>
             )}
           </div>
