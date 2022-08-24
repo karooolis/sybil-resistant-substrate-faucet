@@ -10,14 +10,7 @@ type Props = {
 
 const WalletInput = ({ value, triedClaim, disabled, onChange }: Props) => {
   return (
-    <div>
-      {/* <label
-        htmlFor="wallet-address"
-        className="block text-sm font-medium text-gray-700"
-      >
-        Wallet address
-      </label> */}
-
+    <>
       <input
         type="text"
         name="wallet-address"
@@ -30,11 +23,11 @@ const WalletInput = ({ value, triedClaim, disabled, onChange }: Props) => {
       />
 
       {triedClaim && !isValidAddress(value) && (
-        <p className="mt-2 text-sm text-red-600" id="email-error">
+        <p className="mt-2 text-sm text-red-500 font-medium" id="email-error">
           Please enter valid wallet address.
         </p>
       )}
-    </div>
+    </>
   );
 };
 

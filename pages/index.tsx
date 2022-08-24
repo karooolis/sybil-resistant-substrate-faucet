@@ -22,10 +22,8 @@ const Home = ({ claimed: initialClaimed }: Props) => {
   const [address, setAddress] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
 
-  /**
-   * Process faucet drip request
-   */
-  const processDrip = async () => {
+  // Handle tokens claim
+  const handleClaim = async () => {
     // Set tried claim
     setTriedClaim(true);
 
@@ -95,7 +93,7 @@ const Home = ({ claimed: initialClaimed }: Props) => {
                   />
 
                   <Button
-                    onClick={processDrip}
+                    onClick={handleClaim}
                     disabled={
                       loading ||
                       claimed ||
