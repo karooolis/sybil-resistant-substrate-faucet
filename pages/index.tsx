@@ -37,7 +37,7 @@ const Home = ({ claimed: initialClaimed }: Props) => {
     try {
       // Post new claim with recipient address
       const claimPromise = axios.post("/api/claim/new", { address });
-
+      
       // Toast based on claim state
       await toast.promise(claimPromise, {
         loading: "Claim is pending ...",
@@ -47,7 +47,7 @@ const Home = ({ claimed: initialClaimed }: Props) => {
 
       setClaimed(true);
     } catch (error: unknown) {
-      console.log(error);
+      console.log('Error:', error);
     }
 
     // Toggle loading

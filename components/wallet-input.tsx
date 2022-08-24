@@ -22,7 +22,7 @@ const WalletInput = ({ value, triedClaim, disabled, onChange }: Props) => {
       />
 
       {triedClaim && !isValidAddress(value) && (
-        <p className="mt-2 text-sm text-red-500 font-medium" id="email-error">
+        <p data-testid="wallet-input-error" className="mt-2 text-sm text-red-500 font-medium" id="email-error">
           Please enter valid wallet address.
         </p>
       )}
