@@ -8,6 +8,7 @@ const Login = () => {
     return (
       <button
         data-testid="signout-btn"
+        type="button"
         className="block mt-4 -mb-1 mx-auto text-blue-500 underline"
         onClick={() => signOut()}
       >
