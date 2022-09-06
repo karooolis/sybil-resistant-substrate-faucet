@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import { render, screen, fireEvent, prettyDOM } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import NextAuth, { useSession } from "next-auth/react";
 import { mockGithubSession, mockTwitterSession } from "../__mocks__/mocks";
 import Index from "../pages/index";

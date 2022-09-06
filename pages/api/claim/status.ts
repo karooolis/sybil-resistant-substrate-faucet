@@ -33,6 +33,7 @@ export const hasClaimed = async (session: Session | null): Promise<boolean> => {
   }
 
   const resp: string | null = await client.get(key);
+  
   // If exists, return true, else return false
   return resp ? true : false;
 };
@@ -42,16 +43,16 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 
   if (!session) {
     // Return unauthenticated status
-    res.status(401).send({ error: "Not authenticated." });
+    return res.status(401).send({ error: "Not authenticated." });
   }
 
   try {
     // Collect claim status
     const claimed: boolean = await hasClaimed(session);
-    res.status(200).send({ claimed });
+    return res.status(200).send({ claimed });
   } catch {
     // If failure, return error checking status
-    res.status(500).send({ error: "Error checking claim status." });
+    return res.status(500).send({ error: "Error checking claim status." });
   }
 };
 
