@@ -716,6 +716,14 @@
   resolved "https://registry.yarnpkg.com/@panva/hkdf/-/hkdf-1.0.2.tgz#bab0f09d09de9fd83628220d496627681bc440d6"
   integrity sha512-MSAs9t3Go7GUkMhpKC44T58DJ5KGk2vBo+h1cqQeqlMfdGkxaVB78ZWpv9gYi/g2fa4sopag9gJsNvS8XGgWJA==
 
+"@playwright/test@^1.25.1":
+  version "1.25.1"
+  resolved "https://registry.yarnpkg.com/@playwright/test/-/test-1.25.1.tgz#9847234b6f2b0cca71962b338da7db366a1e9720"
+  integrity sha512-IJ4X0yOakXtwkhbnNzKkaIgXe6df7u3H3FnuhI9Jqh+CdO0e/lYQlDLYiyI9cnXK8E7UAppAWP+VqAv6VX7HQg==
+  dependencies:
+    "@types/node" "*"
+    playwright-core "1.25.1"
+
 "@polkadot/api-augment@9.1.1":
   version "9.1.1"
   resolved "https://registry.yarnpkg.com/@polkadot/api-augment/-/api-augment-9.1.1.tgz#4d1bbcc2bdb056e199ed4a95c0218df052611632"
@@ -4174,6 +4182,11 @@ pkg-dir@^4.2.0:
   integrity sha512-HRDzbaKjC+AOWVXxAU/x54COGeIv9eb+6CkDSQoNTt4XyWoIJvuPsXizxu/Fr23EiekbtZwmh1IcIG/l/a10GQ==
   dependencies:
     find-up "^4.0.0"
+
+playwright-core@1.25.1:
+  version "1.25.1"
+  resolved "https://registry.yarnpkg.com/playwright-core/-/playwright-core-1.25.1.tgz#abe56aec8bef645fba988320d9f9328fafab0446"
+  integrity sha512-lSvPCmA2n7LawD2Hw7gSCLScZ+vYRkhU8xH0AapMyzwN+ojoDqhkH/KIEUxwNu2PjPoE/fcE0wLAksdOhJ2O5g==
 
 postcss-import@^14.1.0:
   version "14.1.0"

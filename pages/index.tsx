@@ -54,6 +54,8 @@ const Home = ({ claimed: initialClaimed }: Props) => {
     setLoading(false);
   };
 
+  console.log(process.env)
+
   return (
     <div className="max-w-7xl h-screen mx-auto px-4 sm:px-6 lg:px-8">
       <Head>
