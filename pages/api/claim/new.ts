@@ -65,7 +65,7 @@ const processDrip = async (address: string) => {
 };
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
-  // Collect session (force any for extra twitter params)
+  // Collect session
   const session = await unstable_getServerSession(req, res, authOptions);
 
   // Collect address
@@ -100,7 +100,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   }
 
   const key = getKey(session) as string;
-  await client.set(key, "true", "EX", 30);
+  await client.set(key, "true", "EX", 60);
 
   res.status(200).json({ message: "Drip processed successfully." });
 };
