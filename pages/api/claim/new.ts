@@ -16,7 +16,7 @@ type Data = {
 };
 
 const initApi = async () => {
-  const ws = new WsProvider(process.env.PROVIDER_ENDPOINT);
+  const ws = new WsProvider(process.env.NETWORK_PROVIDER_ENDPOINT);
 
   // Instantiate the API
   const api = await ApiPromise.create({ provider: ws });

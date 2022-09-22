@@ -1,8 +1,10 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+Sybil-resistant faucet is a generic browser-based faucet solution that can be used on any existing parachain (substrate-based chain, either pallets or ink! smart contracts).
 
 ## Getting Started
 
-First, run the development server:
+In order to run the faucet, you may first configure all the environment variables.
+
+Then, run the development server:
 
 ```bash
 npm run dev
@@ -10,25 +12,51 @@ npm run dev
 yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Testing
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+Tests consist of unit, integration and E2E tests. 
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+### Unit & integration testing
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+Unit & integration tests are written in Jest, and can be run with:
 
-## Learn More
+```bash
+npm run test:unit:integration
+# or
+yarn test:unit:integration
+```
 
-To learn more about Next.js, take a look at the following resources:
+### End-to-end testing
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+End-to-end tests are written in Playwright, and can be run with:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+```bash
+npm run test:e2e
+# or
+yarn test:e2e
+```
 
-## Deploy on Vercel
+## Configuration
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+To make the faucet generic, it stores all its configuration settings in `.env` file.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- `DRIP_CAP` - how many tokens to send per drip.
+- `DRIP_DELAY` - how often user's can request to drip tokens (in seconds).
+- `REDIS_ENDPOINT` - Redis instance endpoint.
+- `NETWORK_PROVIDER_ENDPOINT` - Substrate node endpoint.
+- `NETWORK_DECIMALS` - decimal places used for network tokens.
+- `FAUCET_MNEMONIC` - mnemonic of faucet's wallet.
+- `NEXTAUTH_ENDPOINT` - authentication endpoint.
+- `NEXTAUTH_SECRET` - used to encrypt JWT tokens.
+- `TWITTER_CLIENT_ID` - Twitter client ID.
+- `TWITTER_CLIENT_SECRET` - Twitter client secret.
+- `GITHUB_CLIENT_ID` - GitHub client ID.
+- `GITHUB_CLIENT_SECRET` - GitHub client secret.
+
+### Environments
+
+While you may use a single `.env` file, it is preferable to set up separate environment files in order to avoid accidental sending of tokens, or other potential issues regarding account and network mismatches.
+
+- `.env.test` - use for testing environment.
+- `.env.local` - use for development environment.
+- `.env` - use for production environment.
