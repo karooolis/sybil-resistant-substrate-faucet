@@ -33,7 +33,7 @@ export const hasClaimed = async (session: Session | null): Promise<boolean> => {
   }
 
   const resp: string | null = await client.get(key);
-  
+
   // If exists, return true, else return false
   return resp ? true : false;
 };

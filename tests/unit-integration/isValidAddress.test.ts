@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import { isValidAddress } from "../utils/isValidAddress";
+import { isValidAddress } from "../../utils/isValidAddress";
 
 describe("isValidAddress", () => {
   test("valid address", () => {

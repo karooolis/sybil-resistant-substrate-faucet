@@ -1,8 +1,8 @@
 import "@testing-library/jest-dom";
 import { createMocks } from "node-mocks-http";
 import { getSession } from "next-auth/react";
-import { mockGithubSession, mockOtherSession, mockTwitterSession } from "../__mocks__/mocks";
-import handler, { getKey, hasClaimed } from "../pages/api/claim/status";
+import { mockGithubSession, mockOtherSession, mockTwitterSession } from "../fixtures/sessions";
+import handler, { getKey, hasClaimed } from "../../pages/api/claim/status";
 
 jest.mock("ioredis", () => {
   return jest.fn().mockImplementation(() => {

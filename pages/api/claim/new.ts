@@ -100,7 +100,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   }
 
   const key = getKey(session) as string;
-  await client.set(key, "true", "EX", 60);
+  // TODO: set drip from process.env
+  await client.set(key, "true", "EX", 10);
 
   res.status(200).json({ message: "Drip processed successfully." });
 };

@@ -7,14 +7,16 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "jest --coverage",
-    "test:watch": "jest --watchAll --coverage"
+    "test:unit:integration": "jest --coverage --forceExit",
+    "test:unit:integration:watch": "jest --watchAll --coverage",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@heroicons/react": "^1.0.6",
     "@polkadot/api": "^9.1.1",
     "axios": "^0.27.2",
     "bigfloat.js": "^3.0.1",
+    "dotenv": "^16.0.2",
     "ioredis": "^5.2.2",
     "next": "12.2.4",
     "next-auth": "^4.10.3",
