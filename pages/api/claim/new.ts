@@ -84,7 +84,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   const claimed: boolean = await hasClaimed(session);
   if (claimed) {
     // Return already claimed status
-    return res.status(400).send({ error: "Already claimed in 24h window." });
+    return res.status(400).send({ error: "Already claimed in a given window." });
   }
 
   try {
@@ -96,14 +96,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
     // If error in process, revert
     return res
       .status(500)
-      .send({ error: "Error fully claiming, try again in 15 minutes." });
+      .send({ error: "Unexpected error. Try again later." });
   }
 
   const key = getKey(session) as string;
-  // TODO: set drip from process.env
-  await client.set(key, "true", "EX", 10);
+  await client.set(key, "true", "EX", Number(process.env.DRIP_DELAY));
 
-  res.status(200).json({ message: "Drip processed successfully." });
+  res.status(200).json({ message: "Faucet tokens claim processed successfully." });
 };
 
 export default handler;
