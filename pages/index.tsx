@@ -67,7 +67,7 @@ const Home = ({ claimed: initialClaimed }: Props) => {
           Polkadot Faucet
         </h2>
         <p className="mt-2 max-w-3xl mx-auto text-center text-xl text-gray-500">
-          Bootstrap your testnet wallet
+          Fast and reliable. 0.025 WND / day.
         </p>
 
         <div className="mt-12 bg-white shadow border border-gray-300 sm:rounded-lg">
