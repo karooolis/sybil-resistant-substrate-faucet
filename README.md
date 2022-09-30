@@ -59,7 +59,7 @@ To make the faucet generic, many of its parts are configurable. Configuration se
 
 ### Local blockchain setup
 
-1. First, set the local blockchain using instructions from [Substrate documentation](https://docs.substrate.io/quick-start/).
+1. First, set up the local blockchain using instructions from [Substrate documentation](https://docs.substrate.io/quick-start/).
 2. Run the local blockchain with `./target/release/node-template --dev`.
 3. Obtain secret seed that is used as faucet's fund wallet by running ` ./target/release/node-template key inspect //Alice`.
 
