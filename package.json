@@ -7,8 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test:unit:integration": "jest --coverage --forceExit",
-    "test:unit:integration:watch": "jest --watchAll --coverage",
+    "test:unit:integration": "jest --forceExit",
+    "test:unit:integration:watch": "jest --watchAll",
     "test:e2e": "playwright test"
   },
   "dependencies": {

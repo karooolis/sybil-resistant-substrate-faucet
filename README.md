@@ -2,8 +2,11 @@ Sybil-resistant faucet is a generic browser-based faucet solution that can be us
 
 ## Getting Started
 
-1. Configure environment variables. Read more in [Configuration](#configuration) section.
-2. Then, run the development server:
+1. First, configure environment variables that are needed for user authentication, faucet wallet, etc. Copy `.env.sample` file into `.env.local` and `.env.test`, and start setting up the environment variables in both of these. The rationale behind different environments setup can be found in [Environments](#environments) section. Each variable and its setup is described in [Configuration](#configuration) section.
+
+2. (optional) For local testing you may also want to set up a local Substrate node. Find instructions on [local blockchain setup](#local-blockchain-setup).
+
+3. Once all environment variables are ready, run the development server:
 
 ```bash
 npm run dev
@@ -41,18 +44,24 @@ To make the faucet generic, many of its parts are configurable. Configuration se
 
 | Variable | Description | Default |
 | ------------- | ------------- | ------------- |
-| `DRIP_CAP` | How many tokens to send per each claim. | 0.025 |
-| `DRIP_DELAY` | How often user's can request to drip tokens (in seconds). | 86400 seconds (1 day) |
-| `REDIS_ENDPOINT` | Redis instance endpoint. |  |
-| `NETWORK_PROVIDER_ENDPOINT` | Substrate or Ink! based node endpoint. |  |
-| `NETWORK_DECIMALS` | Decimal places used for network tokens. |  |
-| `FAUCET_MNEMONIC` | Mnemonic of faucet's wallet from which funds will be drawn. |  |
-| `NEXTAUTH_URL` | Authentication endpoint. | http://localhost:3000 |
-| `NEXTAUTH_SECRET` | Used to encrypt JWT tokens. | random_string |
-| `TWITTER_CLIENT_ID` | Twitter client ID. |  |
-| `TWITTER_CLIENT_SECRET` | Twitter client secret. |  |
-| `GITHUB_CLIENT_ID` | GitHub client ID. |  |
-| `GITHUB_CLIENT_SECRET` | GitHub client secret. |  |
+| `DRIP_CAP` | How many tokens to send per each claim. | `0.025` |
+| `DRIP_DELAY` | How often user's can request to drip tokens (in seconds). | `86400 seconds (1 day)` |
+| `REDIS_ENDPOINT` | Redis instance endpoint. It's the easiest to setup Redis instance at [Redis Cloud](https://redis.com/try-free/), or you may run a local blockchain. | *None* |
+| `NETWORK_PROVIDER_ENDPOINT` | Substrate or Ink! based blockchain endpoint. Optionally, for testing purposes, read more on [local blockchain setup](#local-blockchain-setup). | `ws://127.0.0.1:9944` |
+| `FAUCET_SECRET` | Mnemonic or secret seed of faucet's wallet from which funds will be drawn. Optionally, for testing purposes, read more on [local blockchain setup](#local-blockchain-setup). | `0xe5be9a509...` |
+| `NETWORK_DECIMALS` | Decimal places used for network tokens. | `12` |
+| `NEXTAUTH_URL` | Authentication endpoint. Must be set to the canonical URL of your site. Read more on [NextAuth.js documentation](https://next-auth.js.org/configuration/options#nextauth_url). | `http://localhost:3000` |
+| `NEXTAUTH_SECRET` | Used to encrypt the JWT token. Read more on [NextAuth.js documentation](https://next-auth.js.org/configuration/options#nextauth_secret). | `set_random_string` |
+| `TWITTER_CLIENT_ID` | Obtain Twitter OAuth2.0 client ID in [Twitter Developer Portal](https://developer.twitter.com/). Important note, while setting callback URL, make sure it is set to the canonical URL of your site, ending with `/api/auth/callback/twitter`. For example, `https://www.faucet.com/api/auth/callback/twitter`. | *None* |
+| `TWITTER_CLIENT_SECRET` | Obtain Twitter OAuth2.0 client secret in [Twitter Developer Portal](https://developer.twitter.com/). | *None* |
+| `GITHUB_CLIENT_ID` | Obtain GitHub OAuth2.0 client ID in [GitHub Developer settings](https://github.com/settings/developers/) | *None* |
+| `GITHUB_CLIENT_SECRET` | Obtain GitHub OAuth2.0 client secret in [GitHub Developer settings](https://github.com/settings/developers/) | *None* |
+
+### Local blockchain setup
+
+1. First, set the local blockchain using instructions from [Substrate documentation](https://docs.substrate.io/quick-start/).
+2. Run the local blockchain with `./target/release/node-template --dev`.
+3. Obtain secret seed that is used as faucet's fund wallet by running ` ./target/release/node-template key inspect //Alice`.
 
 ### Environments
 
