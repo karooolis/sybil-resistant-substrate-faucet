@@ -47,7 +47,7 @@ To make the faucet generic, many of its parts are configurable. Configuration se
 | `NETWORK_PROVIDER_ENDPOINT` | Substrate or Ink! based node endpoint. |  |
 | `NETWORK_DECIMALS` | Decimal places used for network tokens. |  |
 | `FAUCET_MNEMONIC` | Mnemonic of faucet's wallet from which funds will be drawn. |  |
-| `NEXTAUTH_ENDPOINT` | Authentication endpoint. | http://localhost:3000 |
+| `NEXTAUTH_URL` | Authentication endpoint. | http://localhost:3000 |
 | `NEXTAUTH_SECRET` | Used to encrypt JWT tokens. | random_string |
 | `TWITTER_CLIENT_ID` | Twitter client ID. |  |
 | `TWITTER_CLIENT_SECRET` | Twitter client secret. |  |
