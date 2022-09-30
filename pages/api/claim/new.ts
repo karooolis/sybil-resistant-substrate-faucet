@@ -102,7 +102,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   const key = getKey(session) as string;
   await client.set(key, "true", "EX", Number(process.env.DRIP_DELAY));
 
-  res.status(200).json({ message: "Faucet tokens claim processed successfully." });
+  return res.status(200).json({ message: "Faucet tokens claim processed successfully." });
 };
 
 export default handler;
