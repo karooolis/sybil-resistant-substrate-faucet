@@ -11,7 +11,7 @@ export const mockGithubSession: Session = {
   provider: "github",
   providerAccountId: "GITHUB_PROVIDER_ACCOUNT_ID",
   user: {
-    email: "user@mail.com",
+    email: "githubuser@mail.com",
     name: "USER_NAME",
   },
 };
@@ -21,6 +21,7 @@ export const mockTwitterSession: Session = {
   provider: "twitter",
   providerAccountId: "TWITTER_PROVIDER_ACCOUNT_ID",
   user: {
+    email: "twitteruser@mail.com",
     name: "USER_NAME",
   },
 };
@@ -28,7 +29,7 @@ export const mockTwitterSession: Session = {
 export const mockOtherSession: Session = {
   expires: "1",
   provider: "google",
-  providerAccountId: "GOOGLE_PROVIDER_ACCOUNT_ID",
+  providerAccountId: "RANDOM_PROVIDER_ACCOUNT_ID",
   user: {
     name: "USER_NAME",
   },
