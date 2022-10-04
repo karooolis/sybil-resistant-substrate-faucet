@@ -4,6 +4,8 @@ import RedisMock from "ioredis-mock";
 import { Session } from "next-auth";
 import { unstable_getServerSession } from "next-auth/next";
 import { authOptions } from "../auth/[...nextauth]";
+import { isValidAddress } from "../../../utils/isValidAddress";
+import { add } from "bigfloat.js";
 
 // Setup redis client
 const client = new Redis(process.env.REDIS_ENDPOINT as string);
@@ -33,7 +35,7 @@ export const hasClaimed = async (
   session: Session | null,
   address?: string
 ): Promise<boolean> => {
-  if (address) {
+  if (address && isValidAddress(address)) {
     const resp = await client.get(address);
     if (resp) {
       return true;

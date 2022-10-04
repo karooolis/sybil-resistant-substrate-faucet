@@ -15,11 +15,12 @@ const customJestConfig = {
   testEnvironment: "jest-environment-node",
   testMatch: ["**/*.test.{ts,tsx}"],
   collectCoverageFrom: [
-    "**/*.{ts,tsx}",
-    "!tests/**/*.{ts,tsx}",
-    "!pages/api/auth/**",
-    "!pages/_app.tsx",
-    "!playwright.config.ts"
+    "pages/api/**/*.ts",
+    // "**/*.{ts,tsx}",
+    // "!tests/**/*.{ts,tsx}",
+    // "!pages/api/auth/**",
+    // "!pages/_app.tsx",
+    // "!playwright.config.ts"
   ],
 };
 

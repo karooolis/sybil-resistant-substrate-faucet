@@ -1,8 +1,8 @@
 import "@testing-library/jest-dom";
 import { createMocks } from "node-mocks-http";
 import * as NextAuth from "next-auth/next";
-import { mockGithubSession, mockTwitterSession } from "../fixtures/sessions";
-import handler, { getKey, hasClaimed } from "../../pages/api/claim/status";
+import { mockGithubSession, mockTwitterSession } from "../../fixtures/sessions";
+import handler, { getKey, hasClaimed } from "../../../pages/api/claim/status";
 
 jest.spyOn(NextAuth, "unstable_getServerSession");
 jest.mock("ioredis", () => {
@@ -10,7 +10,7 @@ jest.mock("ioredis", () => {
   const mockClient = new RedisMock({
     data: {
       "githubuser@mail.com": "true",
-      wallet_address: "true",
+      "5GgiURgKaVw2nENZuUmLWQVV7oaGH7ryRkK4A7q4dZWNu69u": "true",
     },
   });
 
@@ -49,7 +49,7 @@ describe("API status endpoint (/api/claim/status)", () => {
 
     test("true for auth'ed user who has not claimed but claims at already claimed address", async () => {
       await expect(
-        hasClaimed(mockTwitterSession, "wallet_address")
+        hasClaimed(mockTwitterSession, "5GgiURgKaVw2nENZuUmLWQVV7oaGH7ryRkK4A7q4dZWNu69u")
       ).resolves.toBe(true);
     });
 
@@ -58,7 +58,7 @@ describe("API status endpoint (/api/claim/status)", () => {
     });
   });
 
-  describe("handler(req, res)", () => {
+  describe("handler()", () => {
     test("unauth'ed user returns 401", async () => {
       const { req, res } = createMocks({
         method: "GET",
@@ -90,7 +90,7 @@ describe("API status endpoint (/api/claim/status)", () => {
       const { req, res } = createMocks({
         method: "GET",
         body: {
-          address: "wallet_address",
+          address: "5GgiURgKaVw2nENZuUmLWQVV7oaGH7ryRkK4A7q4dZWNu69u",
         },
       });
 
