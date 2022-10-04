@@ -5,11 +5,6 @@ import { mockGithubSession, mockTwitterSession } from "../../fixtures/sessions";
 import handler from "../../../pages/api/claim/new";
 
 jest.spyOn(NextAuth, "unstable_getServerSession");
-
-// jest.mock("../../../pages/api/claim/new.utils", () => ({
-//   processDrip: jest.fn()
-// }))
-
 jest.mock("ioredis", () => {
   const RedisMock = jest.requireActual("ioredis-mock");
   const mockClient = new RedisMock({
