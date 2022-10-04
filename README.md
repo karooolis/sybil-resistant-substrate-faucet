@@ -14,7 +14,7 @@ yarn install
 
 3. (optional) For local testing you may also want to set up a local Substrate node. Find instructions on [local blockchain setup](#local-blockchain-setup).
 
-3. Once all environment variables are ready, run the development server:
+4. Once all environment variables are ready, run the development server:
 
 ```bash
 npm run dev
@@ -54,16 +54,16 @@ To make the faucet generic, many of its parts are configurable. Configuration se
 | ------------- | ------------- | ------------- |
 | `DRIP_CAP` | How many tokens to send per each claim. | `0.025` |
 | `DRIP_DELAY` | How often user's can request to drip tokens (in seconds). | `86400 seconds (1 day)` |
-| `REDIS_ENDPOINT` | Redis instance endpoint. It's the easiest to setup Redis instance at [Redis Cloud](https://redis.com/try-free/), or you may run a local blockchain. | *None* |
+| `REDIS_ENDPOINT` | Redis instance endpoint. It's easiest to setup Redis instance at [Redis Cloud](https://redis.com/try-free/), or you may run a local instance. In `test` environment, and when no Redis endpoint is setup, [a mocked Redis instance](https://www.npmjs.com/package/ioredis-mock) is used. | *None (mocked instance)* |
 | `NETWORK_PROVIDER_ENDPOINT` | Substrate or Ink! based blockchain endpoint. Optionally, for testing purposes, read more on [local blockchain setup](#local-blockchain-setup). | `ws://127.0.0.1:9944` |
 | `FAUCET_SECRET` | Mnemonic or secret seed of faucet's wallet from which funds will be drawn. Optionally, for testing purposes, read more on [local blockchain setup](#local-blockchain-setup). | `0xe5be9a509...` |
 | `NETWORK_DECIMALS` | Decimal places used for network tokens. | `12` |
 | `NEXTAUTH_URL` | Authentication endpoint. Must be set to the canonical URL of your site. Read more on [NextAuth.js documentation](https://next-auth.js.org/configuration/options#nextauth_url). | `http://localhost:3000` |
 | `NEXTAUTH_SECRET` | Used to encrypt the JWT token. Read more on [NextAuth.js documentation](https://next-auth.js.org/configuration/options#nextauth_secret). | `set_random_string` |
-| `TWITTER_CLIENT_ID` | Obtain Twitter OAuth2.0 client ID in [Twitter Developer Portal](https://developer.twitter.com/). **Note**, while setting callback URL, make sure it is set to the canonical URL of your site, ending with `/api/auth/callback/twitter`. For example, `https://www.faucet.com/api/auth/callback/twitter`. | *None* |
-| `TWITTER_CLIENT_SECRET` | Obtain Twitter OAuth2.0 client secret in [Twitter Developer Portal](https://developer.twitter.com/). | *None* |
-| `GITHUB_CLIENT_ID` | Obtain GitHub OAuth2.0 client ID in [GitHub Developer settings](https://github.com/settings/developers/). **Note**, while setting callback URL, make sure it is set to the canonical URL of your site, ending with `/api/auth/callback/github`. For example, `https://www.faucet.com/api/auth/callback/github`. | *None* |
-| `GITHUB_CLIENT_SECRET` | Obtain GitHub OAuth2.0 client secret in [GitHub Developer settings](https://github.com/settings/developers/) | *None* |
+| `TWITTER_CLIENT_ID` | Obtain Twitter OAuth2.0 client ID in [Twitter Developer Portal](https://developer.twitter.com/). **Note**, while setting callback URL, make sure it is set to the canonical URL of your site, ending with `/api/auth/callback/twitter`. For example, `https://www.faucet.com/api/auth/callback/twitter`. | *Demo client ID* |
+| `TWITTER_CLIENT_SECRET` | Obtain Twitter OAuth2.0 client secret in [Twitter Developer Portal](https://developer.twitter.com/). | *Demo client secret* |
+| `GITHUB_CLIENT_ID` | Obtain GitHub OAuth2.0 client ID in [GitHub Developer settings](https://github.com/settings/developers/). **Note**, while setting callback URL, make sure it is set to the canonical URL of your site, ending with `/api/auth/callback/github`. For example, `https://www.faucet.com/api/auth/callback/github`. | *Demo client ID* |
+| `GITHUB_CLIENT_SECRET` | Obtain GitHub OAuth2.0 client secret in [GitHub Developer settings](https://github.com/settings/developers/) | *Demo client secret* |
 
 ### Local blockchain setup
 

@@ -1,47 +1,30 @@
 import "@testing-library/jest-dom";
 import { createMocks } from "node-mocks-http";
-import { getSession } from "next-auth/react";
-import { mockGithubSession, mockOtherSession, mockTwitterSession } from "../fixtures/sessions";
+import * as NextAuth from "next-auth/next";
+import { mockGithubSession, mockTwitterSession } from "../fixtures/sessions";
 import handler, { getKey, hasClaimed } from "../../pages/api/claim/status";
 
+jest.spyOn(NextAuth, "unstable_getServerSession");
 jest.mock("ioredis", () => {
-  return jest.fn().mockImplementation(() => {
-    return {
-      /**
-       * For the purpose of testing, user auth'ed with GitHub has claimed already.
-       * Conversely, user auth'ed with Twitter has not yet claimed.
-       */
-      get: jest.fn((key) => {
-        if (key.includes("github")) {
-          return true;
-        } else if (key.includes("twitter")) {
-          return false;
-        } else {
-          throw new Error("Some connection error");
-        }
-      }),
-    };
+  const RedisMock = jest.requireActual("ioredis-mock");
+  const mockClient = new RedisMock({
+    data: {
+      "githubuser@mail.com": "true",
+      wallet_address: "true",
+    },
   });
-});
 
-jest.mock("next-auth/react", () => {
-  return {
-    getSession: jest.fn(),
-  };
+  return jest.fn(() => mockClient);
 });
 
 describe("API status endpoint (/api/claim/status)", () => {
   describe("getKey()", () => {
     test("valid DB key for auth'ed user via GitHub", () => {
-      expect(getKey(mockGithubSession)).toBe(
-        "github-GITHUB_PROVIDER_ACCOUNT_ID"
-      );
+      expect(getKey(mockGithubSession)).toBe(mockGithubSession.user?.email);
     });
 
     test("valid DB key for auth'ed user via Twitter", () => {
-      expect(getKey(mockTwitterSession)).toBe(
-        "twitter-TWITTER_PROVIDER_ACCOUNT_ID"
-      );
+      expect(getKey(mockTwitterSession)).toBe(mockTwitterSession.user?.email);
     });
 
     test("no key for unauth'ed user", () => {
@@ -58,12 +41,24 @@ describe("API status endpoint (/api/claim/status)", () => {
       await expect(hasClaimed(mockTwitterSession)).resolves.toBe(false);
     });
 
+    test("false for auth'ed user who has, and claims at unused wallet address", async () => {
+      await expect(
+        hasClaimed(mockTwitterSession, "unused_wallet_address")
+      ).resolves.toBe(false);
+    });
+
+    test("true for auth'ed user who has not claimed but claims at already claimed address", async () => {
+      await expect(
+        hasClaimed(mockTwitterSession, "wallet_address")
+      ).resolves.toBe(true);
+    });
+
     test("true for auth'ed user who has claimed", async () => {
       await expect(hasClaimed(mockGithubSession)).resolves.toBe(true);
     });
   });
 
-  describe("handler", () => {
+  describe("handler(req, res)", () => {
     test("unauth'ed user returns 401", async () => {
       const { req, res } = createMocks({
         method: "GET",
@@ -74,7 +69,9 @@ describe("API status endpoint (/api/claim/status)", () => {
     });
 
     test("auth'ed user and claimed", async () => {
-      (getSession as jest.Mock).mockReturnValue(mockGithubSession);
+      (NextAuth.unstable_getServerSession as jest.Mock).mockReturnValue(
+        mockGithubSession
+      );
 
       const { req, res } = createMocks({
         method: "GET",
@@ -85,8 +82,27 @@ describe("API status endpoint (/api/claim/status)", () => {
       expect(res._getData()).toStrictEqual({ claimed: true });
     });
 
+    test("auth'ed user, checking at already claimed address", async () => {
+      (NextAuth.unstable_getServerSession as jest.Mock).mockReturnValue(
+        mockGithubSession
+      );
+
+      const { req, res } = createMocks({
+        method: "GET",
+        body: {
+          address: "wallet_address",
+        },
+      });
+
+      await handler(req, res);
+      expect(res._getStatusCode()).toBe(200);
+      expect(res._getData()).toStrictEqual({ claimed: true });
+    });
+
     test("auth'ed user and not claimed", async () => {
-      (getSession as jest.Mock).mockReturnValue(mockTwitterSession);
+      (NextAuth.unstable_getServerSession as jest.Mock).mockReturnValue(
+        mockTwitterSession
+      );
 
       const { req, res } = createMocks({
         method: "GET",
@@ -95,17 +111,6 @@ describe("API status endpoint (/api/claim/status)", () => {
       await handler(req, res);
       expect(res._getStatusCode()).toBe(200);
       expect(res._getData()).toStrictEqual({ claimed: false });
-    });
-
-    test("auth'ed user that throws an error", async () => {
-      (getSession as jest.Mock).mockReturnValue(mockOtherSession);
-
-      const { req, res } = createMocks({
-        method: "GET",
-      });
-
-      await handler(req, res);
-      expect(res._getStatusCode()).toBe(500);
     });
   });
 });

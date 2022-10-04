@@ -12,7 +12,7 @@ const Login = () => {
         className="block mt-4 -mb-1 mx-auto text-blue-500 underline"
         onClick={() => signOut()}
       >
-        Sign out {session.user.email || session.user.name}
+        Sign out {session.user.email}
       </button>
     );
   }

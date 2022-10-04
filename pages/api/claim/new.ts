@@ -2,13 +2,17 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { ApiPromise, WsProvider, Keyring } from "@polkadot/api";
 import { unstable_getServerSession } from "next-auth/next";
 import Redis from "ioredis";
+import RedisMock from "ioredis-mock";
 import { BigFloat } from "bigfloat.js";
 import { getKey, hasClaimed } from "./status";
 import { isValidAddress } from "../../../utils/isValidAddress";
 import { authOptions } from "../auth/[...nextauth]";
 
 // Setup redis client
-const client = new Redis(process.env.REDIS_ENDPOINT as string);
+const client =
+  process.env.NODE_ENV !== "test" && process.env.REDIS_ENDPOINT
+    ? new Redis(process.env.REDIS_ENDPOINT)
+    : new RedisMock();
 
 type Data = {
   message?: string;
@@ -37,17 +41,13 @@ const initApi = async () => {
 
 const initKeyring = () => {
   const keyring = new Keyring({ type: "sr25519" });
-  const account = keyring.addFromMnemonic(
-    process.env.FAUCET_SECRET as string
-  );
-
+  const account = keyring.addFromMnemonic(process.env.FAUCET_SECRET as string);
   return account;
 };
 
 const calculateAmount = (): bigint => {
   const decimals = new BigFloat(process.env.NETWORK_DECIMALS as string);
   const amount = new BigFloat(process.env.DRIP_CAP as string);
-
   return BigInt(
     amount.mul(new BigFloat(10).pow(new BigFloat(decimals))).toString()
   );
@@ -81,10 +81,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
     return res.status(400).send({ error: "Invalid wallet address." });
   }
 
-  const claimed: boolean = await hasClaimed(session);
+  const claimed: boolean = await hasClaimed(session, address);
   if (claimed) {
     // Return already claimed status
-    return res.status(400).send({ error: "Already claimed in a given window." });
+    return res
+      .status(400)
+      .send({ error: "Already claimed in a given window." });
   }
 
   try {
@@ -100,9 +102,15 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   }
 
   const key = getKey(session) as string;
-  await client.set(key, "true", "EX", Number(process.env.DRIP_DELAY));
+  await client
+    .multi()
+    .set(key, "true", "EX", Number(process.env.DRIP_DELAY))
+    .set(address, "true", "EX", Number(process.env.DRIP_DELAY))
+    .exec();
 
-  return res.status(200).json({ message: "Faucet tokens claim processed successfully." });
+  return res
+    .status(200)
+    .json({ message: "Faucet tokens claim processed successfully." });
 };
 
 export default handler;

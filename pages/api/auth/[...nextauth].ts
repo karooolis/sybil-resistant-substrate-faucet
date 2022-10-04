@@ -11,25 +11,8 @@ export const authOptions: NextAuthOptions = {
     TwitterProvider({
       clientId: process.env.TWITTER_CLIENT_ID as string,
       clientSecret: process.env.TWITTER_CLIENT_SECRET as string,
-      version: "2.0",
     }),
   ],
-  callbacks: {
-    async jwt({ token, account }) {
-      if (account) {
-        token.provider = account.provider;
-        token.providerAccountId = account.providerAccountId;
-      }
-
-      return token;
-    },
-    async session({ session, token }) {
-      session.provider = token.provider;
-      session.providerAccountId = token.providerAccountId;
-
-      return session;
-    },
-  },
 };
 
 export default NextAuth(authOptions);

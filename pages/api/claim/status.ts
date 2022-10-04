@@ -1,7 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import Redis from "ioredis";
+import RedisMock from "ioredis-mock";
 import { Session } from "next-auth";
-import { getSession } from "next-auth/react";
+import { unstable_getServerSession } from "next-auth/next";
+import { authOptions } from "../auth/[...nextauth]";
 
 // Setup redis client
 const client = new Redis(process.env.REDIS_ENDPOINT as string);
@@ -13,19 +15,31 @@ type Data = {
 };
 
 export const getKey = (session: Session | null) => {
-  if (!session) {
+  if (!session || !session.user) {
     return null;
   }
 
-  return `${session.provider}-${session.providerAccountId}`;
+  return session.user.email;
 };
 
 /**
- * Checks if a twitter id has claimed from faucet in last 24h
- * @param {string} twitterId to check
+ * Checks if a given user has claimed tokens from the faucet in the last 24h.
+ * Or alternatively, whether funds have been claimed to a given address.
+ * @param {Session} session to check
+ * @param {string} address to check
  * @returns {Promise<boolean>} claim status
  */
-export const hasClaimed = async (session: Session | null): Promise<boolean> => {
+export const hasClaimed = async (
+  session: Session | null,
+  address?: string
+): Promise<boolean> => {
+  if (address) {
+    const resp = await client.get(address);
+    if (resp) {
+      return true;
+    }
+  }
+
   // Check if key exists
   const key = getKey(session);
   if (!key) {
@@ -39,7 +53,11 @@ export const hasClaimed = async (session: Session | null): Promise<boolean> => {
 };
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
-  const session: Session | null = await getSession({ req });
+  // Collect session
+  const session = await unstable_getServerSession(req, res, authOptions);
+
+  // Collect address
+  const { address }: { address?: string } = req.body;
 
   if (!session) {
     // Return unauthenticated status
@@ -48,7 +66,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 
   try {
     // Collect claim status
-    const claimed: boolean = await hasClaimed(session);
+    const claimed: boolean = await hasClaimed(session, address);
     return res.status(200).send({ claimed });
   } catch {
     // If failure, return error checking status
