@@ -1,7 +1,11 @@
 import "@testing-library/jest-dom";
 import { createMocks } from "node-mocks-http";
 import { getSession } from "next-auth/react";
-import { mockGithubSession, mockOtherSession, mockTwitterSession } from "../fixtures/sessions";
+import {
+  mockGithubSession,
+  mockOtherSession,
+  mockTwitterSession,
+} from "../fixtures/sessions";
 import handler, { getKey, hasClaimed } from "../../pages/api/claim/status";
 
 jest.mock("ioredis", () => {
@@ -33,15 +37,11 @@ jest.mock("next-auth/react", () => {
 describe("API status endpoint (/api/claim/status)", () => {
   describe("getKey()", () => {
     test("valid DB key for auth'ed user via GitHub", () => {
-      expect(getKey(mockGithubSession)).toBe(
-        "github-GITHUB_PROVIDER_ACCOUNT_ID"
-      );
+      expect(getKey(mockGithubSession)).toBe(mockGithubSession.user?.email);
     });
 
     test("valid DB key for auth'ed user via Twitter", () => {
-      expect(getKey(mockTwitterSession)).toBe(
-        "twitter-TWITTER_PROVIDER_ACCOUNT_ID"
-      );
+      expect(getKey(mockTwitterSession)).toBe(mockTwitterSession.user?.email);
     });
 
     test("no key for unauth'ed user", () => {

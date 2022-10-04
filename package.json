@@ -8,7 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test:unit:integration": "jest --forceExit",
+    "test:unit:integration": "jest --config jest.config.js",
     "test:unit:integration:watch": "jest --watchAll",
     "test:e2e": "playwright test"
   },

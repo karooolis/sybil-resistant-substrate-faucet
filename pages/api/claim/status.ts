@@ -2,7 +2,8 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import Redis from "ioredis";
 import RedisMock from "ioredis-mock";
 import { Session } from "next-auth";
-import { getSession } from "next-auth/react";
+import { unstable_getServerSession } from "next-auth/next";
+import { authOptions } from "../auth/[...nextauth]";
 
 // Setup redis client
 const client =
@@ -17,11 +18,11 @@ type Data = {
 };
 
 export const getKey = (session: Session | null) => {
-  if (!session) {
+  if (!session || !session.user) {
     return null;
   }
 
-  return `${session.provider}-${session.providerAccountId}`;
+  return session.user.email;
 };
 
 /**
@@ -43,7 +44,11 @@ export const hasClaimed = async (session: Session | null): Promise<boolean> => {
 };
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
-  const session: Session | null = await getSession({ req });
+  // Collect session
+  const session = await unstable_getServerSession(req, res, authOptions);
+
+  // Collect address
+  // const { address }: { address: string } = req.body;
 
   if (!session) {
     // Return unauthenticated status
