@@ -60,9 +60,9 @@ To make the faucet generic, many of its parts are configurable. Configuration se
 | `NETWORK_DECIMALS` | Decimal places used for network tokens. | `12` |
 | `NEXTAUTH_URL` | Authentication endpoint. Must be set to the canonical URL of your site. Read more on [NextAuth.js documentation](https://next-auth.js.org/configuration/options#nextauth_url). | `http://localhost:3000` |
 | `NEXTAUTH_SECRET` | Used to encrypt the JWT token. Read more on [NextAuth.js documentation](https://next-auth.js.org/configuration/options#nextauth_secret). | `set_random_string` |
-| `TWITTER_CLIENT_ID` | Obtain Twitter OAuth2.0 client ID in [Twitter Developer Portal](https://developer.twitter.com/). Important note, while setting callback URL, make sure it is set to the canonical URL of your site, ending with `/api/auth/callback/twitter`. For example, `https://www.faucet.com/api/auth/callback/twitter`. | *None* |
+| `TWITTER_CLIENT_ID` | Obtain Twitter OAuth2.0 client ID in [Twitter Developer Portal](https://developer.twitter.com/). **Note**, while setting callback URL, make sure it is set to the canonical URL of your site, ending with `/api/auth/callback/twitter`. For example, `https://www.faucet.com/api/auth/callback/twitter`. | *None* |
 | `TWITTER_CLIENT_SECRET` | Obtain Twitter OAuth2.0 client secret in [Twitter Developer Portal](https://developer.twitter.com/). | *None* |
-| `GITHUB_CLIENT_ID` | Obtain GitHub OAuth2.0 client ID in [GitHub Developer settings](https://github.com/settings/developers/) | *None* |
+| `GITHUB_CLIENT_ID` | Obtain GitHub OAuth2.0 client ID in [GitHub Developer settings](https://github.com/settings/developers/). **Note**, while setting callback URL, make sure it is set to the canonical URL of your site, ending with `/api/auth/callback/github`. For example, `https://www.faucet.com/api/auth/callback/github`. | *None* |
 | `GITHUB_CLIENT_SECRET` | Obtain GitHub OAuth2.0 client secret in [GitHub Developer settings](https://github.com/settings/developers/) | *None* |
 
 ### Local blockchain setup
