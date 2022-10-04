@@ -25,12 +25,3 @@ export const mockTwitterSession: Session = {
     name: "USER_NAME",
   },
 };
-
-export const mockOtherSession: Session = {
-  expires: "1",
-  provider: "google",
-  providerAccountId: "RANDOM_PROVIDER_ACCOUNT_ID",
-  user: {
-    name: "USER_NAME",
-  },
-};
