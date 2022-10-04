@@ -36,9 +36,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   }
 
   const claimed: boolean = await hasClaimed(session, address);
-
-  console.log('claimed', claimed)
-
   if (claimed) {
     // Return already claimed status
     return res

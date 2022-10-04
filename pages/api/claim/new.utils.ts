@@ -24,9 +24,6 @@ const initApi = async () => {
 const initKeyring = () => {
   const keyring = new Keyring({ type: "sr25519" });
   const account = keyring.addFromMnemonic(process.env.FAUCET_SECRET as string);
-
-  console.log('account');
-
   return account;
 };
 
