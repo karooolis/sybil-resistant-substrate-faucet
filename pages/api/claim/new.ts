@@ -81,7 +81,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
     return res.status(400).send({ error: "Invalid wallet address." });
   }
 
-  const claimed: boolean = await hasClaimed(session);
+  const claimed: boolean = await hasClaimed(session, address);
   if (claimed) {
     // Return already claimed status
     return res
@@ -102,7 +102,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   }
 
   const key = getKey(session) as string;
-  await client.set(key, "true", "EX", Number(process.env.DRIP_DELAY));
+  await client
+    .multi()
+    .set(key, "true", "EX", Number(process.env.DRIP_DELAY))
+    .set(address, "true", "EX", Number(process.env.DRIP_DELAY))
+    .exec();
 
   return res
     .status(200)
