@@ -1,6 +1,5 @@
 import { test, expect } from "@playwright/test";
 import { userFixture } from "../fixtures/user";
-import { getKey } from "../../pages/api/claim/status";
 import { encode } from "../../utils/encode";
 
 test("Unauthenticated - show login buttons", async ({ page }) => {
@@ -77,7 +76,4 @@ test("Authenticated - claim successful & claim disabled after refresh", async ({
   const githubBtn = page.locator("data-testid=github-login-btn");
   await expect(twitterBtn).toHaveText(/Sign in/);
   await expect(githubBtn).toHaveText(/Sign in/);
-
-  // Clean up Redis state after running the test
-  const key = getKey(userFixture) as string;
 });
