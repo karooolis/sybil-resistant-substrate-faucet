@@ -4,7 +4,15 @@ Sybil-resistant faucet is a generic browser-based faucet solution that can be us
 
 1. First, configure environment variables that are needed for user authentication, faucet wallet, etc. Copy `.env.sample` file into `.env.local` and `.env.test`, and start setting up the environment variables in both of these. The rationale behind different environments setup can be found in [Environments](#environments) section. Each variable and its setup is described in [Configuration](#configuration) section.
 
-2. (optional) For local testing you may also want to set up a local Substrate node. Find instructions on [local blockchain setup](#local-blockchain-setup).
+2. Install the dependencies with:
+
+```bash
+npm install
+# or
+yarn install
+```
+
+3. (optional) For local testing you may also want to set up a local Substrate node. Find instructions on [local blockchain setup](#local-blockchain-setup).
 
 3. Once all environment variables are ready, run the development server:
 
