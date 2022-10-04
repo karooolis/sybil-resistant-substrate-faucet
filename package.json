@@ -1,6 +1,7 @@
 {
   "name": "sybil-resistant-faucet",
   "version": "1.0.0",
+  "author": "Karolis Ramanauskas <hello@karolisram.com> (https://www.karolisram.com/)",
   "private": true,
   "scripts": {
     "dev": "next dev",
