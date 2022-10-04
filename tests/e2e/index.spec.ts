@@ -1,11 +1,7 @@
-import Redis from "ioredis";
 import { test, expect } from "@playwright/test";
 import { userFixture } from "../fixtures/user";
 import { getKey } from "../../pages/api/claim/status";
 import { encode } from "../../utils/encode";
-
-// Setup redis client
-const client = new Redis(process.env.REDIS_ENDPOINT as string);
 
 test("Unauthenticated - show login buttons", async ({ page }) => {
   await page.goto("/");
@@ -84,5 +80,4 @@ test("Authenticated - claim successful & claim disabled after refresh", async ({
 
   // Clean up Redis state after running the test
   const key = getKey(userFixture) as string;
-  await client.del(key);
 });
