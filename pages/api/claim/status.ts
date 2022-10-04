@@ -37,7 +37,7 @@ export const hasClaimed = async (
   session: Session | null,
   address?: string
 ): Promise<boolean> => {
-  if (address && isValidAddress(isValidAddress)) {
+  if (address && isValidAddress(address)) {
     const resp = await client.get(address);
     if (resp) {
       return true;
