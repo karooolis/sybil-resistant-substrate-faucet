@@ -1,10 +1,14 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import Redis from "ioredis";
+import RedisMock from "ioredis-mock";
 import { Session } from "next-auth";
 import { getSession } from "next-auth/react";
 
 // Setup redis client
-const client = new Redis(process.env.REDIS_ENDPOINT as string);
+const client =
+  process.env.NODE_ENV !== "test" && process.env.REDIS_ENDPOINT
+    ? new Redis(process.env.REDIS_ENDPOINT)
+    : new RedisMock();
 
 type Data = {
   error?: string;

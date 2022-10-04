@@ -19,11 +19,14 @@
     "bigfloat.js": "^3.0.1",
     "dotenv": "^16.0.2",
     "ioredis": "^5.2.2",
+    "ioredis-mock": "^8.2.2",
     "next": "^12.3.1",
     "next-auth": "^4.12.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-hot-toast": "^2.3.0"
+    "react-hot-toast": "^2.3.0",
+    "redis": "^4.3.1",
+    "redis-mock": "^0.56.3"
   },
   "devDependencies": {
     "@panva/hkdf": "^1.0.2",
