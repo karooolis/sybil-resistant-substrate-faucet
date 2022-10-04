@@ -1,6 +1,7 @@
 {
   "name": "sybil-resistant-faucet",
-  "version": "0.1.0",
+  "version": "1.0.0",
+  "author": "Karolis Ramanauskas <hello@karolisram.com> (https://www.karolisram.com/)",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -18,7 +19,7 @@
     "bigfloat.js": "^3.0.1",
     "dotenv": "^16.0.2",
     "ioredis": "^5.2.2",
-    "next": "12.2.4",
+    "next": "^12.3.1",
     "next-auth": "^4.12.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -43,5 +44,9 @@
     "postcss": "^8.4.16",
     "tailwindcss": "^3.1.8",
     "typescript": "4.7.4"
+  },
+  "engines": {
+    "npm": ">=8.0.0 <9.0.0",
+    "node": ">=14.0.0 <17.0.0"
   }
 }
