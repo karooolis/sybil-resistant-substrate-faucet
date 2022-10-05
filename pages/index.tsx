@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import type { GetServerSideProps } from "next";
 import Head from "next/head";

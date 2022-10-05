@@ -9,7 +9,6 @@ export const getKey = (session: Session | null) => {
   if (!session || !session.user) {
     return null;
   }
-
   return session.user.email;
 };
 

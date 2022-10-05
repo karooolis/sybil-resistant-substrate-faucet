@@ -3,7 +3,7 @@ import { hexToU8a, isHex } from "@polkadot/util";
 
 /**
  * Check if the address is valid
- * @param {string} address Wallet address to check 
+ * @param {string} address Wallet address to check
  * @returns {boolean} true if valid, false if not
  */
 export const isValidAddress = (address: string): boolean => {

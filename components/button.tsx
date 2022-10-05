@@ -1,4 +1,3 @@
-import { string } from "bigfloat.js";
 import React from "react";
 
 type Props = {
@@ -8,7 +7,13 @@ type Props = {
   disabled?: boolean;
 };
 
-const Button = ({ type = "button", children, onClick, disabled, ...rest }: Props) => {
+const Button = ({
+  type = "button",
+  children,
+  onClick,
+  disabled,
+  ...rest
+}: Props) => {
   return (
     <button
       type={type}
