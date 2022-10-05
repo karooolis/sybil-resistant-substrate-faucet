@@ -22,18 +22,28 @@ npm run dev
 yarn dev
 ```
 
+**Note**: all environment variables need to be set correctly in order for the faucet to work 🚨
+
 ## Testing
 
-Tests consist of unit, integration and E2E tests.
+Tests consist of unit & integration tests for frontend & backend, as well as E2E tests.
 
 ### Unit & integration testing
 
-Unit & integration tests are written in Jest, and can be run with:
+Unit & integration tests are written in Jest. Frontend tests are run with:
 
 ```bash
-npm run test:unit:integration
+npm run test:frontend
 # or
-yarn test:unit:integration
+yarn test:frontend
+```
+
+Backend tests are run with:
+
+```bash
+npm run test:backend
+# or
+yarn test:backend
 ```
 
 ### End-to-end testing
@@ -45,6 +55,8 @@ npm run test:e2e
 # or
 yarn test:e2e
 ```
+
+**Note**: in order for E2E tests to work, all environment variables need to be configured.
 
 ## Configuration
 
@@ -60,8 +72,8 @@ To make the faucet generic, many of its parts are configurable. Configuration se
 | `NETWORK_DECIMALS`          | Decimal places used for network tokens.                                                                                                                                                                                                                                                                         | `12`                     |
 | `NEXTAUTH_URL`              | Authentication endpoint. Must be set to the canonical URL of your site. Read more on [NextAuth.js documentation](https://next-auth.js.org/configuration/options#nextauth_url).                                                                                                                                  | `http://127.0.0.1:3000`  |
 | `NEXTAUTH_SECRET`           | Used to encrypt the JWT token. Read more on [NextAuth.js documentation](https://next-auth.js.org/configuration/options#nextauth_secret).                                                                                                                                                                        | `set_random_string`      |
-| `TWITTER_CLIENT_ID`         | Obtain Twitter OAuth2.0 client ID in [Twitter Developer Portal](https://developer.twitter.com/). **Note**, while setting callback URL, make sure it is set to the canonical URL of your site, ending with `/api/auth/callback/twitter`. For example, `https://www.faucet.com/api/auth/callback/twitter`.        | _Demo client ID_         |
-| `TWITTER_CLIENT_SECRET`     | Obtain Twitter OAuth2.0 client secret in [Twitter Developer Portal](https://developer.twitter.com/).                                                                                                                                                                                                            | _Demo client secret_     |
+| `TWITTER_CLIENT_ID`         | Obtain Twitter OAuth1.0 client ID in [Twitter Developer Portal](https://developer.twitter.com/). **Note**, while setting callback URL, make sure it is set to the canonical URL of your site, ending with `/api/auth/callback/twitter`. For example, `https://www.faucet.com/api/auth/callback/twitter`.        | _Demo client ID_         |
+| `TWITTER_CLIENT_SECRET`     | Obtain Twitter OAuth1.0 client secret in [Twitter Developer Portal](https://developer.twitter.com/).                                                                                                                                                                                                            | _Demo client secret_     |
 | `GITHUB_CLIENT_ID`          | Obtain GitHub OAuth2.0 client ID in [GitHub Developer settings](https://github.com/settings/developers/). **Note**, while setting callback URL, make sure it is set to the canonical URL of your site, ending with `/api/auth/callback/github`. For example, `https://www.faucet.com/api/auth/callback/github`. | _Demo client ID_         |
 | `GITHUB_CLIENT_SECRET`      | Obtain GitHub OAuth2.0 client secret in [GitHub Developer settings](https://github.com/settings/developers/)                                                                                                                                                                                                    | _Demo client secret_     |
 
