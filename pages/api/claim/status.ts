@@ -21,7 +21,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   // Collect address
   const { address }: { address?: string } = req.body;
 
-   // Return unauthenticated status if no session
+  // Return unauthenticated status if no session
   if (!session) {
     return res.status(401).send({ error: "Not authenticated." });
   }

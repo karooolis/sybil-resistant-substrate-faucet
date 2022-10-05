@@ -50,7 +50,10 @@ describe("API status endpoint (/api/claim/status)", () => {
 
     test("true for auth'ed user who has not claimed but claims at already claimed address", async () => {
       await expect(
-        hasClaimed(mockTwitterSession, "5GgiURgKaVw2nENZuUmLWQVV7oaGH7ryRkK4A7q4dZWNu69u")
+        hasClaimed(
+          mockTwitterSession,
+          "5GgiURgKaVw2nENZuUmLWQVV7oaGH7ryRkK4A7q4dZWNu69u"
+        )
       ).resolves.toBe(true);
     });
 
