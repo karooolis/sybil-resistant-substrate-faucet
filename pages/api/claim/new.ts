@@ -9,6 +9,11 @@ type Data = {
   error?: string;
 };
 
+/**
+ * Claim endpoint handler.
+ * @param {NextApiRequest} req API request
+ * @param {NextApiResponse<Data>} res API response
+ */
 const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   // Collect session
   const session = await unstable_getServerSession(req, res, authOptions);

@@ -1,5 +1,9 @@
 import { ApiPromise, WsProvider } from "@polkadot/api";
 
+/**
+ * Initialize the chain provider's API
+ * @returns {ApiPromise} API instance
+ */
 export const initApi = async () => {
   const ws = new WsProvider(process.env.NETWORK_PROVIDER_ENDPOINT);
 
