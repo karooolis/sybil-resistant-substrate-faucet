@@ -67,8 +67,6 @@ const Home = ({ claimed: initialClaimed }: Props) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <a></a>
-
       <main className="max-w-3xl mx-auto">
         <h2 className="text-center pt-12 text-3xl leading-8 font-bold tracking-tight text-gray-900 sm:text-4xl sm:tracking-tight">
           Polkadot Faucet
