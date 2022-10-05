@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { userFixture } from "../fixtures/user";
-import { encode } from "../../utils/encode";
+import { encode } from "../utils/encode";
 
 test("Unauthenticated - show login buttons", async ({ page }) => {
   await page.goto("/");
