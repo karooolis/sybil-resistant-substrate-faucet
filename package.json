@@ -4,7 +4,7 @@
   "author": "Karolis Ramanauskas <hello@karolisram.com> (https://www.karolisram.com/)",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --hostname 127.0.0.1",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
