@@ -8,8 +8,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test:unit:integration": "jest --coverage --silent --forceExit --config jest.config.js",
-    "test:unit:integration:watch": "jest --watchAll",
+    "test:frontend": "jest --coverage --silent --config jest.frontend.config.js",
+    "test:backend": "jest --coverage --silent --forceExit --config jest.backend.config.js",
     "test:e2e": "playwright test"
   },
   "dependencies": {

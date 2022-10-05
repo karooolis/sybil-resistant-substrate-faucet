@@ -5,7 +5,7 @@ import RedisMock from "ioredis-mock";
 import { getKey, hasClaimed } from "./status";
 import { isValidAddress } from "../../../utils/isValidAddress";
 import { authOptions } from "../auth/[...nextauth]";
-import { processDrip } from "./new.utils";
+import { processDrip } from "./utils/processDrip";
 
 // Setup redis client
 const client =
