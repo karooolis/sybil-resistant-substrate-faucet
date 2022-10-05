@@ -1,13 +1,6 @@
 import { Session } from "next-auth";
 import { isValidAddress } from "../../../../utils/isValidAddress";
-import getKey from "./getKey";
-
-import Redis from "ioredis";
-import RedisMock from "ioredis-mock";
-const client =
-  process.env.NODE_ENV !== "test" && process.env.REDIS_ENDPOINT
-    ? new Redis(process.env.REDIS_ENDPOINT)
-    : new RedisMock();
+import { getKey, redisClient } from "./";
 
 /**
  * Checks if a given user has claimed tokens from the faucet in the last 24h.
@@ -22,7 +15,7 @@ export const hasClaimed = async (
 ): Promise<boolean> => {
   // Check if address has been claimed
   if (address && isValidAddress(address)) {
-    const resp = await client.get(address);
+    const resp = await redisClient.get(address);
     if (resp) {
       return true;
     }
@@ -35,7 +28,7 @@ export const hasClaimed = async (
   }
 
   // Check if key has been claimed
-  const resp: string | null = await client.get(key);
+  const resp: string | null = await redisClient.get(key);
 
   // If exists, return true, else return false
   return resp ? true : false;

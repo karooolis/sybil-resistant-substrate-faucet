@@ -1,17 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { unstable_getServerSession } from "next-auth/next";
-import Redis from "ioredis";
-import RedisMock from "ioredis-mock";
-import { getKey, hasClaimed } from "./utils";
+import { getKey, hasClaimed, processDrip, redisClient } from "./utils";
 import { isValidAddress } from "../../../utils/isValidAddress";
 import { authOptions } from "../auth/[...nextauth]";
-import { processDrip } from "./utils/processDrip";
-
-// Setup redis client
-const client =
-  process.env.NODE_ENV !== "test" && process.env.REDIS_ENDPOINT
-    ? new Redis(process.env.REDIS_ENDPOINT)
-    : new RedisMock();
 
 type Data = {
   message?: string;
@@ -56,7 +47,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   }
 
   const key = getKey(session) as string;
-  await client
+  await redisClient
     .multi()
     .set(key, "true", "EX", Number(process.env.DRIP_DELAY))
     .set(address, "true", "EX", Number(process.env.DRIP_DELAY))
