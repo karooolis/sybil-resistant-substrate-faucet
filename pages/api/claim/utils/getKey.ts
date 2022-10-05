@@ -10,6 +10,8 @@ export const getKey = (session: Session | null) => {
     return null;
   }
 
+  var key = session.user.key;
+
   return session.user.email;
 };
 

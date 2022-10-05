@@ -1,4 +1,3 @@
-import { string } from "bigfloat.js";
 import React from "react";
 
 type Props = {
