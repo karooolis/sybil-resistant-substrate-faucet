@@ -10,7 +10,7 @@ test("Unauthenticated - show login buttons", async ({ page }) => {
   await expect(githubBtn).toHaveText(/Sign in/);
 });
 
-test("Authenticated - claim successful & claim disabled after refresh", async ({ browser }) => {
+test("Authenticated - claim", async ({ browser }) => {
   const encoded = await encode(
     userFixture,
     process.env.NEXTAUTH_SECRET as string
@@ -54,16 +54,9 @@ test("Authenticated - claim successful & claim disabled after refresh", async ({
   await expect(claimBtn).not.toBeDisabled();
 
   await claimBtn.click();
-  await expect(claimBtn).toHaveText("Claiming ...");
   await expect(claimBtn).toBeDisabled();
   await expect(walletInput).toBeDisabled();
-  await expect(claimBtn).toHaveText("Tokens Claimed Successfully");
-
-  // Should not be able to claim until time expires
-  await page.reload();
-  await expect(claimBtn).toBeDisabled();
-  await expect(walletInput).toBeDisabled();
-  await expect(claimBtn).toHaveText("Tokens Already Claimed");
+  await expect(claimBtn).toHaveText(/Claim/);
 
   // Sign out and no longer show the form & show sign in buttons
   const signOutBtn = page.locator('[data-testid="signout-btn"]');
