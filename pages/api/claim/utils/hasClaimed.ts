@@ -5,8 +5,8 @@ import { getKey, redisClient } from "./";
 /**
  * Checks if a given user has claimed tokens from the faucet in the last 24h.
  * Or alternatively, whether funds have been claimed to a given address.
- * @param {Session} session to check
- * @param {string} address to check
+ * @param {Session} session Session to check
+ * @param {string} address Wallet address to check
  * @returns {Promise<boolean>} claim status
  */
 export const hasClaimed = async (

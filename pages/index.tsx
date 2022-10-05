@@ -15,6 +15,11 @@ type Props = {
   claimed: boolean;
 };
 
+/**
+ * Home page
+ * @param {boolean} claimed Whether the user has already claimed funds
+ * @returns {JSX.Element}
+ */
 const Home = ({ claimed: initialClaimed }: Props) => {
   const { status } = useSession();
   const [triedClaim, setTriedClaim] = useState<boolean>(false);
