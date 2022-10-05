@@ -2,7 +2,8 @@ import "@testing-library/jest-dom";
 import { createMocks } from "node-mocks-http";
 import * as NextAuth from "next-auth/next";
 import { mockGithubSession, mockTwitterSession } from "../fixtures/sessions";
-import handler, { getKey, hasClaimed } from "../../pages/api/claim/status";
+import { getKey, hasClaimed } from "../../pages/api/claim/utils";
+import handler from "../../pages/api/claim/status";
 
 jest.spyOn(NextAuth, "unstable_getServerSession");
 jest.mock("ioredis", () => {
