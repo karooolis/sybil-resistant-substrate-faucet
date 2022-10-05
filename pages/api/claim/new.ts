@@ -1,67 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { ApiPromise, WsProvider, Keyring } from "@polkadot/api";
 import { unstable_getServerSession } from "next-auth/next";
-import Redis from "ioredis";
-import RedisMock from "ioredis-mock";
-import { BigFloat } from "bigfloat.js";
-import { getKey, hasClaimed } from "./status";
+import { getKey, hasClaimed, processDrip, redisClient } from "./utils";
 import { isValidAddress } from "../../../utils/isValidAddress";
 import { authOptions } from "../auth/[...nextauth]";
-
-// Setup redis client
-const client =
-  process.env.NODE_ENV !== "test" && process.env.REDIS_ENDPOINT
-    ? new Redis(process.env.REDIS_ENDPOINT)
-    : new RedisMock();
 
 type Data = {
   message?: string;
   error?: string;
-};
-
-const initApi = async () => {
-  const ws = new WsProvider(process.env.NETWORK_PROVIDER_ENDPOINT);
-
-  // Instantiate the API
-  const api = await ApiPromise.create({ provider: ws });
-
-  // Retrieve the chain & node information information via rpc calls
-  const [chain, nodeName, nodeVersion] = await Promise.all([
-    api.rpc.system.chain(),
-    api.rpc.system.name(),
-    api.rpc.system.version(),
-  ]);
-
-  console.log(
-    `You are connected to chain ${chain} using ${nodeName} v${nodeVersion}`
-  );
-
-  return api;
-};
-
-const initKeyring = () => {
-  const keyring = new Keyring({ type: "sr25519" });
-  const account = keyring.addFromMnemonic(process.env.FAUCET_SECRET as string);
-  return account;
-};
-
-const calculateAmount = (): bigint => {
-  const decimals = new BigFloat(process.env.NETWORK_DECIMALS as string);
-  const amount = new BigFloat(process.env.DRIP_CAP as string);
-  return BigInt(
-    amount.mul(new BigFloat(10).pow(new BigFloat(decimals))).toString()
-  );
-};
-
-const processDrip = async (address: string) => {
-  const api = await initApi();
-  const account = initKeyring();
-  const amount = calculateAmount();
-
-  const transfer = api.tx.balances.transfer(address, amount);
-  const hash = await transfer.signAndSend(account);
-
-  console.log("Transfer sent with hash", hash.toHex());
 };
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
@@ -102,7 +47,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   }
 
   const key = getKey(session) as string;
-  await client
+  await redisClient
     .multi()
     .set(key, "true", "EX", Number(process.env.DRIP_DELAY))
     .set(address, "true", "EX", Number(process.env.DRIP_DELAY))

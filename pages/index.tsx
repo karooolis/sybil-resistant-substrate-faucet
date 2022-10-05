@@ -7,7 +7,7 @@ import { getSession, GetSessionParams, useSession } from "next-auth/react";
 import { toast } from "react-hot-toast";
 import Login from "../components/login";
 import { isValidAddress } from "../utils/isValidAddress";
-import { hasClaimed } from "./api/claim/status";
+import { hasClaimed } from "./api/claim/utils/hasClaimed";
 import Button from "../components/button";
 import WalletInput from "../components/wallet-input";
 
@@ -37,7 +37,7 @@ const Home = ({ claimed: initialClaimed }: Props) => {
     try {
       // Post new claim with recipient address
       const claimPromise = axios.post("/api/claim/new", { address });
-      
+
       // Toast based on claim state
       await toast.promise(claimPromise, {
         loading: "Claim is pending ...",
@@ -47,7 +47,7 @@ const Home = ({ claimed: initialClaimed }: Props) => {
 
       setClaimed(true);
     } catch (error: unknown) {
-      console.log('Error:', error);
+      console.log("Error:", error);
     }
 
     // Toggle loading
@@ -134,7 +134,6 @@ const Home = ({ claimed: initialClaimed }: Props) => {
 
 export async function getServerSideProps(context: GetServerSideProps) {
   const session: Session | null = await getSession(context as GetSessionParams);
-
   return {
     props: {
       session,
