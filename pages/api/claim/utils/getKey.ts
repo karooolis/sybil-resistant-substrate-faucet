@@ -5,10 +5,12 @@ import { Session } from "next-auth";
  * @param {Session|null} session Session to check
  * @returns {string|null} user's key
  */
-export const getKey = (session: Session | null) => {
+export const getKey = (session: Session | null) =>   {
   if (!session || !session.user) {
     return null;
   }
+
+  var key = session.user.key
 
   return session.user.email;
 };

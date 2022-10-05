@@ -75,6 +75,8 @@ const Home = ({ claimed: initialClaimed }: Props) => {
           Fast and reliable. 0.025 WND / day.
         </p>
 
+        <a>asd</a>
+
         <div className="mt-12 bg-white shadow border border-gray-300 sm:rounded-lg">
           <div className="px-4 py-5 sm:p-6">
             <h3 className="text-lg leading-6 font-medium text-gray-900">
