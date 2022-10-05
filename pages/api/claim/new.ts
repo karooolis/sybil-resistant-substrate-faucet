@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { unstable_getServerSession } from "next-auth/next";
 import Redis from "ioredis";
 import RedisMock from "ioredis-mock";
-import { getKey, hasClaimed } from "./status";
+import { getKey, hasClaimed } from "./utils";
 import { isValidAddress } from "../../../utils/isValidAddress";
 import { authOptions } from "../auth/[...nextauth]";
 import { processDrip } from "./utils/processDrip";

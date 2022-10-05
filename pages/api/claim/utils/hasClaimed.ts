@@ -40,3 +40,5 @@ export const hasClaimed = async (
   // If exists, return true, else return false
   return resp ? true : false;
 };
+
+export default hasClaimed;
