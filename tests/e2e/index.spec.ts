@@ -23,7 +23,7 @@ test("Authenticated - claim", async ({ browser }) => {
           name: "next-auth.session-token",
           value: encoded,
           path: "/",
-          domain: "localhost",
+          domain: "127.0.0.1",
           httpOnly: true,
           secure: false,
           sameSite: "Lax",
