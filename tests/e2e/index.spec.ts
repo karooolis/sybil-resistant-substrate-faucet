@@ -27,7 +27,7 @@ test("Authenticated - claim", async ({ browser }) => {
           httpOnly: true,
           secure: false,
           sameSite: "Lax",
-          expires: 1665586311.440944,
+          expires: 5389421866.440944,
         },
       ],
       origins: [],
